@@ -1,22 +1,27 @@
-package pessoa;
+package cliente;
 
 import conta.Conta;
 import enumeraveis.TipoDePessoa;
 import enumeraveis.TipoID;
 
-public class PessoaFisica extends Pessoa{
+import static enumeraveis.TipoDePessoa.FISICA;
+
+public class ClientePF extends Cliente {
+    final TipoDePessoa tipoDePessoa = FISICA;
+    final TipoID tipoID = TipoID.CPF;
     private String cpf;
-    private PessoaFisica(String nome, TipoID tipoID, TipoDePessoa tipoDePessoa) {
-        setNome(nome);
-        setTipoId(tipoID);
-        setTipoDePessoa(tipoDePessoa);
+    
+    private ClientePF(String nome, String cpf) {
+        super(nome);
+        this.cpf = cpf;
+        this.numId = cpf;
+        // pensei em gerar um número do cliente diferente, gerado pelo banco,
+        // com algum componente aleatório, para não deixar CPF ou CNPJ público
     }
-    public PessoaFisica(String nome, TipoID tipoID, TipoDePessoa tipoDePessoa, String numId) {
-        super();
-        this.cpf = numId;
+    void setSenha(String senha) {
+        this.senha = senha;
     }
-
-
+    
     @Override
     public void sacar(Conta conta, double valor) {
         if(conta.getSaldo()>= valor){
@@ -29,12 +34,12 @@ public class PessoaFisica extends Pessoa{
 
     @Override
     public void depositar(Conta conta, double valor) {
-
+        //
     }
 
     @Override
     public void transferir(Conta contaOrigem, Conta contaDestino, double valor) {
-
+        //
     }
 
     @Override
