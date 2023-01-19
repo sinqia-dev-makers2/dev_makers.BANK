@@ -1,40 +1,37 @@
 package cliente;
 
 import conta.Conta;
-import enumeraveis.TipoDeConta;
-import enumeraveis.TipoDePessoa;
-import interfaces.IPessoa;
+import conta.TipoDeConta;
 
-public abstract class Cliente implements IPessoa {
-    private String nome;
-    protected String numId;
+public abstract class Cliente implements ICliente {
+    private String nomeDoCliente;
+    protected String numIdCliente;
     private TipoDePessoa tipoDePessoa;
-    public Conta[] numConta;
-    String senha;
+    public Conta contaDesseCliente; // public Conta[] contasDesseCliente; cada cliente pode ter mais de uma conta, uma de cada tipo
+    protected String senhaDoCliente;
     
-    Cliente(String nome) {
-        this.nome = nome;
-    }
-    
-    void setNome(String nome) {
-        this.nome = nome;
-    }
-    String getNome() {
-        return nome;
+    protected Cliente(String nomeDoCliente) {
+        this.nomeDoCliente = nomeDoCliente;
     }
     
-    void setTipoDePessoa(enumeraveis.TipoDePessoa tipoDePessoa) {
-        this.tipoDePessoa = tipoDePessoa;
+    String getNomeDoCliente() {
+        return nomeDoCliente;
     }
+    
     TipoDePessoa getTipoDePessoa() {
         return tipoDePessoa;
     }
     
-    String getSenha() {
-        return senha;
+    protected String getSenhaDoCliente() {
+        return senhaDoCliente;
     }
     
     public void abrirConta(TipoDeConta tipoDeConta) {
         // implementar abertura de conta
+    }
+    
+    @Override
+    public double consultarSaldo() {
+        return contaDesseCliente.consultarSaldo();
     }
 }
