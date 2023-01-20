@@ -107,8 +107,115 @@ public class Banco {
 		validaCadastro(getClientesPF(), getClientesPJ());
 	}
 	
-	public void Logado(IPessoa<?> cliente) {
+	public void Logado(IPessoa<TipoPessoa> cliente) {
+		System.out.println("\t ************************************************************************************************************");
+		System.out.println("\t ********************************************   Banco DevMakers   *******************************************");
+		System.out.println("\t ************************************************************************************************************");
+		System.out.println("\t >>> Bem-vindo Sr(a) " + cliente.getNome() + "\n");
+		System.out.println("\t >>> Opções: ");
+		System.out.println("\t\t 1 - Consultar Saldo");
+		System.out.println("\t\t 2 - Saque");
+		switch (cliente.getConta().getTipoConta()) {
+			case CC:
+				System.out.println("\t\t 3 - Depósito");
+				System.out.println("\t\t 4 - Transferir");
+				System.out.print("\n\t >>> Digite a opção desejada: ");
+				switch(leitor.lerInteiro("[1-4]", "Digite a opção desejada: ")){
+					case 1:
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					case 4:
+						break;
+				}
+				break;
+			case CP: 
+				System.out.println("\t\t 3 - Depósito");
+				System.out.print("\n\t >>> Digite a opção desejada: ");
+				switch(leitor.lerInteiro("[1-3]", "Digite a opção desejada: ")){
+					case 1:
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+				}
+				break;
+			case CI: 
+				System.out.println("\t\t 3 - Investir");
+				System.out.print("\n\t >>> Digite a opção desejada: ");
+				switch(leitor.lerInteiro("[1-3]", "Digite a opção desejada: ")){
+					case 1:
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+				}
+				break;
+		}
+	}
+	
+	public void verSaldo(IPessoa<TipoPessoa> cliente) {
+		cliente.getConta().consultarSaldo();
+	}
+	
+	public void efetuarSaque(IPessoa<TipoPessoa> cliente) {
+		double valor = 0;
 		
+		if(cliente.getTipoPessoa() == TipoPessoa.PJ) {
+			valor = valor + (valor * 0.005);
+		}
+		
+		if(validaSaldo(cliente, valor)) {
+			cliente.getConta().sacar(valor);
+			System.out.println("\t Saque efetuado com sucesso");
+		}
+		else {
+			System.out.println("\t Saldo insuficiente!");
+		}
+	}
+	
+	public void efetuarDeposito(IPessoa<TipoPessoa> cliente) {
+		double valor = 0;
+		
+		if(cliente.getTipoPessoa() == TipoPessoa.PF && cliente.getConta().getTipoConta() == TipoConta.CP) {
+			valor = valor + (valor * 0.01);
+		}
+		
+		cliente.getConta().depositar(valor);
+		System.out.println("Depósito efetuado com sucesso!");
+	}
+	
+	public void efetuarTransferencia(IPessoa<TipoPessoa> clienteOrigem, IPessoa<TipoPessoa> clienteDestino) {
+		double valor = 0;
+		
+		if(clienteOrigem.getTipoPessoa() == TipoPessoa.PJ) {
+			valor = valor + (valor * 0.005);
+		}
+		
+		if(validaSaldo(clienteOrigem, valor)) {
+			clienteOrigem.getConta().atualizarSaldo(clienteOrigem.getConta().consultarSaldo(), valor);
+			System.out.println("\t Transferência efetuada com sucesso!");
+		}
+		else {
+			System.out.println("\t Saldo insuficiente!");
+		}
+		
+	}
+	
+	public void efetuarInvestimento(IPessoa<TipoPessoa> cliente) {
+		double valor = 0;
+		
+		if(cliente.getTipoPessoa() == TipoPessoa.PF) {
+			valor = valor + (valor * 0.015);
+		}
+		else {
+			valor = valor + (valor * 0.035);
+		}
+		cliente.getConta().investir(0);
 	}
 	
 	
@@ -120,7 +227,14 @@ public class Banco {
 	
 	
 	
-	
+	public boolean validaSaldo(IPessoa<TipoPessoa> cliente, double valor) {
+		if(cliente.getConta().consultarSaldo() >= valor) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 	public void validaCadastro(ArrayList<PessoaFisica> clientesPF, ArrayList<PessoaJuridica> clientesPJ) throws ParseException {
 		for(int i = 0; i < clientesPF.size(); i++) {
@@ -191,13 +305,13 @@ public class Banco {
 		for(int i = 0; i < clientesPF.size(); i++) {
 			if(clientesPF.get(i).getConta().getAgencia() == agencia && clientesPF.get(i).getConta().getNumConta() == conta && clientesPF.get(i).getConta().getSenha() == senha) {
 				System.out.println("\n\t >>>>>>>>> Login Efetuado com Sucesso!");
-				Logado(clientesPF.get(i));
+				//Logado(clientesPF.get(i));
 			}
 		}
 		for(int i = 0; i < clientesPJ.size(); i++) {
 			if(clientesPJ.get(i).getConta().getAgencia() == agencia && clientesPJ.get(i).getConta().getNumConta() == conta && clientesPJ.get(i).getConta().getSenha() == senha) {
 				System.out.println("\n\t >>>>>>>>> Login Efetuado com Sucesso!");
-				Logado(clientesPJ.get(i));
+				//Logado(clientesPJ.get(i));
 			}
 		}
 		System.out.println("\n\t >>>>>>>>> Agência, Conta e/ou Senha incorretos!");
@@ -205,33 +319,19 @@ public class Banco {
 		Inicio();
 	}
 	
-	public void addCliente(PessoaFisica cliente) {
-		clientesPF.add(cliente);
-	}
+	public void addCliente(PessoaFisica cliente) {clientesPF.add(cliente);}
 	
-	public void addCliente(PessoaJuridica cliente) {
-		clientesPJ.add(cliente);
-	}
+	public void addCliente(PessoaJuridica cliente) {clientesPJ.add(cliente);}
 	
-	public ArrayList<PessoaFisica> getClientesPF() {
-		return this.clientesPF;
-	}
+	public ArrayList<PessoaFisica> getClientesPF() {return this.clientesPF;}
 	
-	public ArrayList<PessoaJuridica> getClientesPJ(){
-		return this.clientesPJ;
-	}
+	public ArrayList<PessoaJuridica> getClientesPJ(){return this.clientesPJ;}
 		
-	public String getNome() {
-		return nome;
-	}
+	public String getNome() {return nome;}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+	public void setNome(String nome) {this.nome = nome;}
 
-	public TipoPessoa getTipoPess() {
-		return tipoPess;
-	}
+	public TipoPessoa getTipoPess() {return tipoPess;}
 
 	public void setTipoPess() {
 		System.out.println("\t\t 1 - Fisica");
@@ -247,17 +347,11 @@ public class Banco {
 		}
 	}
 
-	public int getIdade() {
-		return idade;
-	}
+	public int getIdade() {return idade;}
 
-	public void setIdade(int idade) {
-		this.idade = idade;
-	}
+	public void setIdade(int idade) {this.idade = idade;}
 
-	public TipoConta getTipoConta() {
-		return tipoConta;
-	}
+	public TipoConta getTipoConta() {return tipoConta;}
 	
 	public void setTipoConta(TipoPessoa tipoPess) {
 		if(tipoPess == TipoPessoa.PF) {
@@ -292,9 +386,7 @@ public class Banco {
 		}
 	}
 
-	public String getCpf_cnpj() {
-		return cpf_cnpj;
-	}
+	public String getCpf_cnpj() {return cpf_cnpj;}
 
 	public void setCpf_cnpj(TipoPessoa tipoPess) throws ParseException {
 		if(tipoPess == TipoPessoa.PF) {

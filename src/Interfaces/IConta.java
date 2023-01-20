@@ -23,4 +23,6 @@ public interface IConta {
 	
 	double consultarSaldo();
 	
+	void investir(double valor);
+	
 }

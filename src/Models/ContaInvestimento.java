@@ -13,13 +13,14 @@ public class ContaInvestimento extends Conta implements IConta {
 		setSaldo(0);
 	}
 	
+	@Override
 	public void investir(double valor) {
-		
+		atualizarSaldo(consultarSaldo(), valor);
 	}
-
+	
 	@Override
 	public void sacar(double valor) {
-		
+		atualizarSaldo(consultarSaldo(), -valor);
 	}
 
 	@Override
@@ -27,10 +28,10 @@ public class ContaInvestimento extends Conta implements IConta {
 
 	@Override
 	public void transferir(ContaCorrente contaDestino, double valor) {}
-
+	
 	@Override
 	public void atualizarSaldo(double saldo, double valor) {
-		
+		setSaldo(saldo + valor);
 	}
 
 	@Override

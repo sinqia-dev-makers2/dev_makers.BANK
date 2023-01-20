@@ -15,27 +15,30 @@ public class ContaCorrente extends Conta implements IConta {
 
 	@Override
 	public void sacar(double valor) {
-		
+		atualizarSaldo(consultarSaldo(), -valor);
 	}
 
 	@Override
 	public void depositar(double valor) {
-		
+		atualizarSaldo(consultarSaldo(), valor);
 	}
 
 	@Override
 	public void transferir(ContaCorrente contaDestino, double valor) {
-		
+		contaDestino.atualizarSaldo(contaDestino.consultarSaldo(), valor);
+		atualizarSaldo(consultarSaldo(), valor);
 	}
 	
 	@Override
 	public void atualizarSaldo(double saldo, double valor) {
-		
+		setSaldo(saldo + valor);
 	}
 
 	@Override
 	public double consultarSaldo() {
 		return getSaldo();
 	}
-
+	
+	@Override
+	public void investir(double valor) {}
 }
