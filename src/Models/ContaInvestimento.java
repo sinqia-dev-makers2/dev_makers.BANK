@@ -1,16 +1,41 @@
 package Models;
 
-public class ContaInvestimento extends Conta {
+import Enums.TipoConta;
+import Enums.TipoPessoa;
+import Interfaces.IConta;
+
+public class ContaInvestimento extends Conta implements IConta<ContaInvestimento> {
+
+	public ContaInvestimento(int agencia, int conta, int senha) {
+		setAgencia(agencia);
+		setNumConta(conta);
+		setSenha(senha);
+		setTipoConta(TipoConta.CI);
+	}
 	
-	private char tipoConta;
-	
-	public ContaInvestimento(/*Completar*/) {
-		/*Completar*/
-		tipoConta = 'I';
+	public void investir(double valor) {
+		
 	}
 
-	public char getTipoConta() {
-		return tipoConta;
+	@Override
+	public void sacar(double valor) {
+		
 	}
 
+	@Override
+	public void depositar(double valor) {}
+
+	@Override
+	public void transferir(ContaInvestimento contaDestino, double valor) {}
+
+	@Override
+	public void atualizarSaldo(double saldo, double valor) {
+		
+	}
+
+	@Override
+	public void consultarSaldo() {
+		
+	}
+	
 }

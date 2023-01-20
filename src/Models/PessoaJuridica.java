@@ -1,37 +1,31 @@
 package Models;
 
+import Enums.TipoPessoa;
+
 public class PessoaJuridica extends Pessoa {
 	
-	private String nomeFantasia;
-	private int cnpj;
-	private char tipoPessoa;
+	private final String 		cnpj;
+	private final TipoPessoa 	tipoPessoa = TipoPessoa.PJ;
 	
-	public PessoaJuridica(String nome, String nomeFantasia, int cnpj, int idade, String endereco) {
+	public PessoaJuridica(String nome, int idade, String cnpj, ContaCorrente conta) {
 		setNome(nome);
-		setNomeFantasia(nomeFantasia);
-		setCnpj(cnpj);
 		setIdade(idade);
-		setEndereco(endereco);
-		tipoPessoa = 'j';
-	}
-
-	public String getNomeFantasia() {
-		return nomeFantasia;
-	}
-
-	public void setNomeFantasia(String nomeFantasia) {
-		this.nomeFantasia = nomeFantasia;
+		this.cnpj = cnpj;
+		setConta(conta);
 	}
 	
-	public int getCnpj() {
+	public PessoaJuridica(String nome, int idade, String cnpj, ContaInvestimento conta) {
+		setNome(nome);
+		setIdade(idade);
+		this.cnpj = cnpj;
+		setConta(conta);
+	}
+
+	public String getCnpj() {
 		return cnpj;
 	}
 
-	public void setCnpj(int cnpj) {
-		this.cnpj = cnpj;
-	}
-	
-	public char getTipoPessoa() {
+	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;
-	}
+	}	
 }

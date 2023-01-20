@@ -1,16 +1,38 @@
 package Models;
 
-public class ContaPoupanca extends Conta {
+import Enums.TipoConta;
+import Interfaces.IConta;
 
-	private char tipoConta;
-	
-	public ContaPoupanca(/*Completar*/) {
-		/*Completar*/
-		tipoConta = 'P';
+public class ContaPoupanca extends Conta implements IConta<ContaPoupanca> {
+
+	public ContaPoupanca(int agencia, int conta, int senha) {
+		setAgencia(agencia);
+		setNumConta(conta);
+		setSenha(senha);
+		setTipoConta(TipoConta.CP);
 	}
-	
-	public char getTipoConta() {
-		return tipoConta;
+
+	@Override
+	public void sacar(double valor) {
+		
 	}
-	
+
+	@Override
+	public void depositar(double valor) {
+		
+	}
+
+	@Override
+	public void transferir(ContaPoupanca contaDestino, double valor) {}
+
+	@Override
+	public void atualizarSaldo(double saldo, double valor) {
+		
+	}
+
+	@Override
+	public void consultarSaldo() {
+		
+	}
+
 }

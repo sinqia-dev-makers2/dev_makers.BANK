@@ -1,9 +1,15 @@
 package Main;
 
+import Misc.Menus;
+
 public class Aplicacao {
 
 	public static void main(String[] args) {
-		/*Completar*/
+		
+		Menus menus = new Menus();
+		
+		menus.menuInicial();
+		
 	}
 
 }

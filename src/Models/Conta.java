@@ -1,30 +1,14 @@
 package Models;
 
+import Enums.TipoConta;
+
 public class Conta {
 
-	private PessoaFisica titularPF;
-	private PessoaJuridica titularPJ;
 	private int agencia;
 	private int conta;
 	private int senha;
-	private double saldo;
-	
-	public PessoaFisica getTitularPF() {
-		return titularPF;
-	}
-	
-	public void setTitularPF(PessoaFisica titularPF) {
-		this.titularPF = titularPF;
-	}
-	
-	public PessoaJuridica getTitularPJ() {
-		return titularPJ;
-	}
-	
-	public void setTitularPJ(PessoaJuridica titularPJ) {
-		this.titularPJ = titularPJ;
-	}
-	
+	private TipoConta tipoConta;
+
 	public int getAgencia() {
 		return agencia;
 	}
@@ -33,28 +17,27 @@ public class Conta {
 		this.agencia = agencia;
 	}
 	
-	public int getConta() {
-		return conta;
-	}
-	
-	public void setConta(int conta) {
-		this.conta = conta;
-	}
-	
-	public double getSaldo() {
-		return saldo;
-	}
-	
-	public void setSaldo(double saldo) {
-		this.saldo = saldo;
-	}
-
 	public int getSenha() {
 		return senha;
 	}
-
+	
 	public void setSenha(int senha) {
 		this.senha = senha;
 	}
 	
+	public int getNumConta() {
+		return conta;
+	}
+	
+	public void setNumConta(int conta) {
+		this.conta = conta;
+	}
+	
+	public TipoConta getTipoConta() {
+		return tipoConta;
+	}
+	
+	public void setTipoConta(TipoConta tipoConta) {
+		this.tipoConta = tipoConta;
+	}
 }

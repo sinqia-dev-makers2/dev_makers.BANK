@@ -1,28 +1,38 @@
 package Models;
 
-public class PessoaFisica extends Pessoa{
+import Enums.TipoPessoa;
 
-	private int cpf;
-	private char tipoPessoa;
+public class PessoaFisica extends Pessoa {
+
+	private final String 		cpf;
+	private final TipoPessoa 	tipoPessoa = TipoPessoa.PF;
 	
-	public PessoaFisica(String nome, int cpf, int idade, String endereco) {
+	public PessoaFisica(String nome, int idade, String cpf, ContaCorrente conta) {
 		setNome(nome);
-		setCpf(cpf);
 		setIdade(idade);
-		setEndereco(endereco);
-		tipoPessoa = 'f';
+		this.cpf = cpf;
+		setConta(conta);
+	}
+	
+	public PessoaFisica(String nome, int idade, String cpf, ContaPoupanca conta) {
+		setNome(nome);
+		setIdade(idade);
+		this.cpf = cpf;
+		setConta(conta);
+	}
+	
+	public PessoaFisica(String nome, int idade, String cpf, ContaInvestimento conta) {
+		setNome(nome);
+		setIdade(idade);
+		this.cpf = cpf;
+		setConta(conta);
 	}
 
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(int cpf) {
-		this.cpf = cpf;
-	}
-	
-	public char getTipoPessoa() {
+	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;
 	}
-	
 }

@@ -1,10 +1,12 @@
 package Models;
 
+import Interfaces.IConta;
+
 public class Pessoa {
 
-	private String nome;
-	private int idade;
-	private String endereco;
+	private String 		nome;
+	private int 		idade;
+	private IConta<?> 	conta;
 	
 	public String getNome() {
 		return nome;
@@ -21,13 +23,13 @@ public class Pessoa {
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
-	
-	public String getEndereco() {
-		return endereco;
+		
+	public IConta<?> getConta() {
+		return conta;
 	}
-	
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+
+	public void setConta(IConta<?> conta) {
+		this.conta = conta;
 	}
 	
 }

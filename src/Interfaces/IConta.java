@@ -1,13 +1,25 @@
 package Interfaces;
 
-public interface IConta<T> {
+import Enums.TipoConta;
 
-	void sacar(T conta, double valor);
+public interface IConta<T> {
 	
-	void depositar(T conta, double valor);
+	int getAgencia();
 	
-	void transferir(T contaOrigem, T contaDestino, double valor);
+	int getNumConta();
 	
-	double consultarSaldo(T conta);
+	int getSenha();
+	
+	TipoConta getTipoConta();
+	
+	void sacar(double valor);
+	
+	void depositar(double valor);
+	
+	void transferir(T contaDestino, double valor);
+	
+	void atualizarSaldo(double saldo, double valor);
+	
+	void consultarSaldo();
 	
 }
