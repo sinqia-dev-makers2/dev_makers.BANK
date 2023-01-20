@@ -44,6 +44,7 @@ public class LeitorDeDados {
 	}
 	
 	public String lerTexto(String regex, String msg) {
+		sc.nextLine(); //limpa buffer de "enter"
 		texto = sc.nextLine();
 		while(texto.length() > 1 || texto.length() == 0) {
 			System.out.println("\n\t >>>>>>>>> Erro! Digite novamente!\n");

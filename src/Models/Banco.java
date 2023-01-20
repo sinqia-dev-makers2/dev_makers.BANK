@@ -1,7 +1,10 @@
 package Models;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import Enums.TipoConta;
+import Enums.TipoPessoa;
 import Interfaces.IPessoa;
 import Misc.LeitorDeDados;
 
@@ -9,7 +12,14 @@ public class Banco {
 	
 	LeitorDeDados leitor = new LeitorDeDados();
 	
+	Random rd = new Random();
+	
 	private ArrayList<IPessoa<?>> clientes = new ArrayList<>();
+	private String nome;
+	private TipoPessoa tipoPess;
+	private int idade;
+	private TipoConta tipoConta;
+	private String cpf_cnpj;
 	private int agencia;
 	private int conta;
 	private int senha;
@@ -60,7 +70,16 @@ public class Banco {
 	}
 	
 	public void menuAbrirConta() {
+		System.out.println("\t************************************************************************************************************");
+		System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+		System.out.println("\t************************************************************************************************************");
+		System.out.println("\t >>> Insira seus dados abaixo: \n");
+		System.out.print("\t >>> Nome: ");
+		setNome(leitor.lerTexto("a-z", "Nome: "));
 		
+		setAgencia(rd.nextInt(1001, 7001));
+		
+		System.out.print("\t >>> Agência: ");
 	}
 	
 	public void menuUsuario(int idCliente) {
@@ -78,7 +97,20 @@ public class Banco {
 	
 	
 	
-	
+	public void validaCadastro() {
+		for(int i = 0; i < clientes.size(); i++) {
+			if(clientes.get(i).getConta().getAgencia() == agencia && clientes.get(i).getConta().getNumConta() == conta) {
+				System.out.println("\n\t >>>>>>>>> Agência e/ou Conta existentes!");
+				System.out.println("\n\t >>>>>>>>> Voltando para a Tela Inicial!");
+				limpaMenu();
+				menuInicial();
+			}
+		}
+		System.out.println("\n\t >>>>>>>>> Cadastro Efetuado com Sucesso!");
+		System.out.println("\n\t >>>>>>>>> Voltando para a Tela Inicial!");
+		limpaMenu();
+		menuInicial();
+	}
 	
 	public void validaLogin(ArrayList<IPessoa<?>> clientes, int agencia, int conta, int senha) {
 		for(int i = 0; i < clientes.size(); i++) {
@@ -100,6 +132,48 @@ public class Banco {
 		return clientes.get(IdCliente);
 	}
 	
+	
+	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public TipoPessoa getTipoPess() {
+		return tipoPess;
+	}
+
+	public void setTipoPess(TipoPessoa tipoPess) {
+		this.tipoPess = tipoPess;
+	}
+
+	public int getIdade() {
+		return idade;
+	}
+
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+
+	public TipoConta getTipoConta() {
+		return tipoConta;
+	}
+
+	public void setTipoConta(TipoConta tipoConta) {
+		this.tipoConta = tipoConta;
+	}
+
+	public String getCpf_cnpj() {
+		return cpf_cnpj;
+	}
+
+	public void setCpf_cnpj(String cpf_cnpj) {
+		this.cpf_cnpj = cpf_cnpj;
+	}
+
 	public int getAgencia() {return agencia;}
 
 	public void setAgencia(int agencia) {this.agencia = agencia;}
