@@ -1,12 +1,12 @@
 package Main;
 
-import Misc.Menus;
+import Models.Banco;
 
 public class Aplicacao {
 
 	public static void main(String[] args) {
 		
-		Menus menus = new Menus();
+		Banco menus = new Banco();
 		
 		menus.menuInicial();
 		

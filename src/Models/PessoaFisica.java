@@ -1,8 +1,9 @@
 package Models;
 
 import Enums.TipoPessoa;
+import Interfaces.IPessoa;
 
-public class PessoaFisica extends Pessoa {
+public class PessoaFisica extends Pessoa implements IPessoa<TipoPessoa> {
 
 	private final String 		cpf;
 	private final TipoPessoa 	tipoPessoa = TipoPessoa.PF;
@@ -28,7 +29,7 @@ public class PessoaFisica extends Pessoa {
 		setConta(conta);
 	}
 
-	public String getCpf() {
+	public String getCpfCpnj() {
 		return cpf;
 	}
 
