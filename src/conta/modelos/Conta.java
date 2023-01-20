@@ -1,6 +1,6 @@
 package conta.modelos;
 
-public abstract class Conta implements IConta<Conta>{
+public abstract class Conta implements IConta<Conta, TipoConta>{
     private String numConta;
     protected double saldo;
     public double txRendimento;
@@ -46,4 +46,5 @@ public abstract class Conta implements IConta<Conta>{
     public void sacarDaConta(double valor) {
         setSaldo(getSaldo() - valor * (1 + txSaque));
     }
+    
 }

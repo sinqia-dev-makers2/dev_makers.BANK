@@ -1,21 +1,25 @@
 package cliente.modelos;
 
 import conta.modelos.Conta;
+import conta.modelos.TipoConta;
 
-public abstract class Cliente implements ICliente<Conta>{
-    private String nomeDoCliente;
-    protected String numIdCliente;
+public abstract class Cliente implements ICliente<Conta, TipoConta>{
     private TipoDeCliente tipoDeCliente;
-    public Conta contaDesseCliente;
-    // public Conta[] contasDesseCliente; cada cliente pode ter mais de uma conta, uma de cada tipo
+    private TipoIDCliente tipoIDCliente;
+    
+    private String nomeDoCliente;
+    protected String numIDCliente;
     protected String senhaDoCliente;
+    
+    public Conta contaDoCliente;
+    // public Conta[] contasDesseCliente; cada cliente pode ter mais de uma conta, uma de cada tipo
     
     protected Cliente(String nomeDoCliente) {
         this.nomeDoCliente = nomeDoCliente;
     }
     
-    public double consultarSaldo(Conta contaDesseCliente) {
-        return contaDesseCliente.getSaldo();
+    public double consultarSaldo(Conta contaConsultada) {
+        return contaConsultada.getSaldo();
     }
     
     public void depositar(Conta contaDeposito, double valorDeposito) {
@@ -53,4 +57,9 @@ public abstract class Cliente implements ICliente<Conta>{
     protected String getSenhaDoCliente() {
         return senhaDoCliente;
     }
+    
+    
+    public abstract void abrirConta(TipoConta tipoConta);
+
+
 }
