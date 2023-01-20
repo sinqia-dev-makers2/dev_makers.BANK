@@ -4,7 +4,7 @@ public interface IPessoa<T> {
 
 	String getNome();
 	int getIdade();
-	IConta<?> getConta();
+	IConta getConta();
 	String getCpfCpnj();
 	T getTipoPessoa();
 	

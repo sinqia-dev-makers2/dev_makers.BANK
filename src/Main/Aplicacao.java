@@ -1,14 +1,19 @@
 package Main;
 
+import java.text.ParseException;
+
 import Models.Banco;
 
 public class Aplicacao {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		
-		Banco menus = new Banco();
+		Banco banco = new Banco();
 		
-		menus.menuInicial();
+		banco.Inicio();
+		
+		
+		
 		
 	}
 

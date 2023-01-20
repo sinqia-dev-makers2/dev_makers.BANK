@@ -1,8 +1,9 @@
 package Interfaces;
 
 import Enums.TipoConta;
+import Models.ContaCorrente;
 
-public interface IConta<T> {
+public interface IConta {
 	
 	int getAgencia();
 	
@@ -16,10 +17,10 @@ public interface IConta<T> {
 	
 	void depositar(double valor);
 	
-	void transferir(T contaDestino, double valor);
+	void transferir(ContaCorrente contaDestino, double valor);
 	
 	void atualizarSaldo(double saldo, double valor);
 	
-	void consultarSaldo();
+	double consultarSaldo();
 	
 }

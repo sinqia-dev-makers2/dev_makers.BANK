@@ -13,7 +13,7 @@ public class LeitorDeDados {
 	public int lerInteiro(String regex, String msg) {
 		texto = sc.next();
 		while (!texto.matches(regex)) {
-			System.out.println("\n\t >>>>>>>> Erro! Digite o número novamente!\n");
+			System.out.println("\t\t\t Erro! Digite o número novamente!");
 			System.out.print("\t >>> " + msg);
 			texto = sc.next();
 		}
@@ -24,7 +24,7 @@ public class LeitorDeDados {
 	public double lerDecimal(String regex, String msg) {
 		texto = sc.next();
 		while (!texto.matches(regex)) {
-			System.out.println("\n\t >>>>>>>>> Erro! Digite o valor novamente!\n");
+			System.out.println("\t\t\t Erro! Digite o valor novamente!");
 			System.out.print("\t >>> " + msg);
 			texto = sc.next();
 		}
@@ -35,7 +35,7 @@ public class LeitorDeDados {
 	public char lerCaracter(String regex, String msg) {
 		texto = sc.next();
 		while(texto.length() > 1 || texto.length() == 0 || !texto.toLowerCase().matches(regex)) {
-			System.out.println("\n\t >>>>>>>>> Erro! Digite o caracter novamente!\n");
+			System.out.println("\t\t\t Erro! Digite o caracter novamente!");
 			System.out.print("\t >>> " + msg);
 			texto = sc.next();
 		}
@@ -46,11 +46,21 @@ public class LeitorDeDados {
 	public String lerTexto(String regex, String msg) {
 		sc.nextLine(); //limpa buffer de "enter"
 		texto = sc.nextLine();
-		while(texto.length() > 1 || texto.length() == 0) {
-			System.out.println("\n\t >>>>>>>>> Erro! Digite novamente!\n");
-			System.out.print("\t >>> " + msg);
-			texto = sc.nextLine();
+		if(regex.equals("")) {
+			while(texto.length() < 3) {
+				System.out.println("\t\t\t Erro! Digite novamente!");
+				System.out.print("\t >>> " + msg);
+				texto = sc.nextLine();
+			}
 		}
+		else {
+			while(!texto.matches(regex)) {
+				System.out.println("\t\t\t Erro! Digite novamente!");
+				System.out.print("\t >>> " + msg);
+				texto = sc.nextLine();
+			}
+		}
+		
 		return texto;
 	}
 }

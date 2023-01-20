@@ -1,8 +1,9 @@
 package Models;
 
 import Enums.TipoPessoa;
+import Interfaces.IPessoa;
 
-public class PessoaJuridica extends Pessoa {
+public class PessoaJuridica extends Pessoa implements IPessoa<TipoPessoa>{
 	
 	private final String 		cnpj;
 	private final TipoPessoa 	tipoPessoa = TipoPessoa.PJ;
@@ -21,11 +22,13 @@ public class PessoaJuridica extends Pessoa {
 		setConta(conta);
 	}
 
-	public String getCnpj() {
+	@Override
+	public String getCpfCpnj() {
 		return cnpj;
 	}
-
+	
+	@Override
 	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;
-	}	
+	}
 }

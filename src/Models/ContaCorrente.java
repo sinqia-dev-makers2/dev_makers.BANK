@@ -3,13 +3,14 @@ package Models;
 import Enums.TipoConta;
 import Interfaces.IConta;
 
-public class ContaCorrente extends Conta implements IConta<ContaCorrente> {
+public class ContaCorrente extends Conta implements IConta {
 
 	public ContaCorrente(int agencia, int conta, int senha) {
 		setAgencia(agencia);
 		setNumConta(conta);
 		setSenha(senha);
 		setTipoConta(TipoConta.CC);
+		setSaldo(0);
 	}
 
 	@Override
@@ -33,8 +34,8 @@ public class ContaCorrente extends Conta implements IConta<ContaCorrente> {
 	}
 
 	@Override
-	public void consultarSaldo() {
-		
+	public double consultarSaldo() {
+		return getSaldo();
 	}
 
 }

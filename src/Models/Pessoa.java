@@ -6,7 +6,7 @@ public class Pessoa {
 
 	private String 		nome;
 	private int 		idade;
-	private IConta<?> 	conta;
+	private IConta 	conta;
 	
 	public String getNome() {
 		return nome;
@@ -24,11 +24,11 @@ public class Pessoa {
 		this.idade = idade;
 	}
 		
-	public IConta<?> getConta() {
+	public IConta getConta() {
 		return conta;
 	}
 
-	public void setConta(IConta<?> conta) {
+	public void setConta(IConta conta) {
 		this.conta = conta;
 	}
 	

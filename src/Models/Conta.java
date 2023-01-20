@@ -8,6 +8,7 @@ public class Conta {
 	private int conta;
 	private int senha;
 	private TipoConta tipoConta;
+	private double saldo;
 
 	public int getAgencia() {
 		return agencia;
@@ -39,5 +40,13 @@ public class Conta {
 	
 	public void setTipoConta(TipoConta tipoConta) {
 		this.tipoConta = tipoConta;
+	}
+
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
 	}
 }

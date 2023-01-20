@@ -29,10 +29,12 @@ public class PessoaFisica extends Pessoa implements IPessoa<TipoPessoa> {
 		setConta(conta);
 	}
 
+	@Override
 	public String getCpfCpnj() {
 		return cpf;
 	}
 
+	@Override
 	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;
 	}
