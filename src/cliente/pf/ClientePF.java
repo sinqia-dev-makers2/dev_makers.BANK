@@ -23,10 +23,14 @@ public class ClientePF extends Cliente implements ICliente<IConta> {
     }
 
     @Override
+    //Passar atribuição de verificar tipo para a camada de aplicação
     public void transferir(IConta contaOrigem, IConta contaDestino, double valor) {
-        contaDesseCliente.enviarTransferencia(contaDestino, valor);
-        contaDestino.receberTransferencia(valor);
-
+        if (contaDesseCliente.getTipoDeConta() == TipoContaPF.CORRENTE && contaDestino.getTipoDeConta() == TipoDeConta.CORRENTE) {
+            contaDesseCliente.enviarTransferencia(contaDestino, valor);
+            contaDestino.receberTransferencia(valor);
+        } else {
+            System.out.println("Este tipo de conta não realiza/recebe transferências.");
+        }
     }
 
     @Override
