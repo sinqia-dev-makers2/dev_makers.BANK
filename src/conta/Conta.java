@@ -1,6 +1,6 @@
 package conta;
 
-public abstract class Conta implements IConta {
+public abstract class Conta {
     private String numConta;
     private TipoDeConta tipoDeConta;
     private double saldo;
@@ -16,25 +16,8 @@ public abstract class Conta implements IConta {
     public TipoDeConta getTipoDeConta() {
         return tipoDeConta;
     }
-    
-    public double consultarSaldo() {
+
+    public double getSaldo() {
         return saldo;
-    }
-    public void atualizarSaldo(double saldo) {
-        this.saldo = saldo;
-    }
-    
-    public void depositar(double valorRecebido) {
-        atualizarSaldo(consultarSaldo() + valorRecebido);
-    }
-    public void retirar(double valorRetirado) {
-        atualizarSaldo(consultarSaldo() - valorRetirado);
-    }
-    
-    public void receberTransferencia(double valorReceber) {
-        depositar(valorReceber);
-    }
-    public void enviarTransferencia(double valorEnviar) {
-        retirar(valorEnviar);
     }
 }

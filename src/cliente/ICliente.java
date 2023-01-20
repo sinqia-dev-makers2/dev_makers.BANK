@@ -3,8 +3,7 @@ package cliente;
 import conta.Conta;
 import conta.TipoDeConta;
 
-public interface ICliente<T extends Conta, S extends TipoDeConta>{
-    void abrirConta(S tipoDeConta);
+public interface ICliente<T>{
     
     double consultarSaldo();
     
@@ -12,5 +11,5 @@ public interface ICliente<T extends Conta, S extends TipoDeConta>{
     
     void sacar(double valor);
 
-    void transferir(T contaDestino, double valor);
+    void transferir(T contaOrigem, T contaDestino, double valor);
 }

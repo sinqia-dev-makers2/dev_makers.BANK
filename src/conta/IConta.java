@@ -1,8 +1,8 @@
 package conta;
 
-public interface IConta {
-    double consultarSaldo();
+public interface IConta<T> {
+    double getSaldo();
     void atualizarSaldo(double valor);
     void receberTransferencia(double valor);
-    void enviarTransferencia(double valor);
+    void enviarTransferencia(T ContaDestino,double valor);
 }

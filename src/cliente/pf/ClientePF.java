@@ -1,35 +1,43 @@
 package cliente.pf;
 
 import cliente.Cliente;
+import cliente.ICliente;
 import cliente.TipoDePessoa;
 import cliente.TipoIDCliente;
 import conta.Conta;
+import conta.IConta;
+import conta.TipoDeConta;
+import conta.pf.TipoContaPF;
 
 import static cliente.TipoDePessoa.FISICA;
 
-public class ClientePF extends Cliente {
-    final TipoDePessoa tipoDePessoa = FISICA;
-    final TipoIDCliente tipoIDCliente = TipoIDCliente.CPF;
-    private String cpf;
-    
-    public ClientePF(String nome, String cpf) {
-        super(nome);
-        this.cpf = cpf;
-        this.numIdCliente = cpf;    //gerar um número do cliente aleatótio, gerado pelo banco
+public class ClientePF extends Cliente implements ICliente<IConta> {
+    protected ClientePF(String nomeDoCliente) {
+        super(nomeDoCliente);
     }
-    private void setSenha(String senha) {
-        this.senhaDoCliente = senha;
+
+
+    @Override
+    public double consultarSaldo() {
+        return contaDesseCliente.getSaldo();
     }
-    
+
+    @Override
+    public void transferir(IConta contaOrigem, IConta contaDestino, double valor) {
+        contaDesseCliente.enviarTransferencia(contaDestino, valor);
+        contaDestino.receberTransferencia(valor);
+
+    }
+
     @Override
     public void depositar(double valorDeposito) {
         contaDesseCliente.atualizarSaldo(consultarSaldo() + valorDeposito);
     }
-    
+
     public boolean verificarDisponibilidade(Double valorDaTransacao){
         return (valorDaTransacao <= consultarSaldo());
     }
-    
+
     @Override
     public void sacar(double valorRetirada) {
         if (verificarDisponibilidade(valorRetirada)) {
@@ -37,11 +45,5 @@ public class ClientePF extends Cliente {
         } else {
             System.out.println("Saldo insuficiente");
         }
-    }
-    
-    @Override
-    public void transferir(Conta contaDestino, double valorTransferencia) {
-        contaDesseCliente.enviarTransferencia(valorTransferencia);
-        contaDestino.receberTransferencia(valorTransferencia);
     }
 }
