@@ -1,7 +1,6 @@
 package Interfaces;
 
 import Enums.TipoConta;
-import Models.ContaCorrente;
 
 public interface IConta {
 	
@@ -15,14 +14,9 @@ public interface IConta {
 	
 	void sacar(double valor);
 	
-	void depositar(double valor);
-	
-	void transferir(ContaCorrente contaDestino, double valor);
-	
 	void atualizarSaldo(double saldo, double valor);
 	
 	double consultarSaldo();
 	
-	void investir(double valor);
 	
 }

@@ -2,8 +2,10 @@ package Models;
 
 import Enums.TipoConta;
 import Interfaces.IConta;
+import Interfaces.IContaCC;
+import Interfaces.IContaCC_CP;
 
-public class ContaCorrente extends Conta implements IConta {
+public class ContaCorrente extends Conta implements IConta, IContaCC, IContaCC_CP {
 
 	public ContaCorrente(int agencia, int conta, int senha) {
 		setAgencia(agencia);
@@ -24,8 +26,12 @@ public class ContaCorrente extends Conta implements IConta {
 	}
 
 	@Override
-	public void transferir(ContaCorrente contaDestino, double valor) {
-		contaDestino.atualizarSaldo(contaDestino.consultarSaldo(), valor);
+	public void transferir(double valor) {
+		atualizarSaldo(consultarSaldo(), valor);
+	}
+	
+	@Override
+	public void receberTransferencia(double valor) {
 		atualizarSaldo(consultarSaldo(), valor);
 	}
 	
@@ -38,7 +44,4 @@ public class ContaCorrente extends Conta implements IConta {
 	public double consultarSaldo() {
 		return getSaldo();
 	}
-	
-	@Override
-	public void investir(double valor) {}
 }

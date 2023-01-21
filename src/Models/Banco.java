@@ -6,6 +6,10 @@ import java.util.Random;
 
 import Enums.TipoConta;
 import Enums.TipoPessoa;
+import Interfaces.IConta;
+import Interfaces.IContaCC;
+import Interfaces.IContaCC_CP;
+import Interfaces.IContaCI;
 import Interfaces.IPessoa;
 import Misc.Formatar_CPF_CNPJ;
 import Misc.LeitorDeDados;
@@ -57,7 +61,7 @@ public class Banco {
 		}
 	}
 	
-	public void EntrarConta() throws ParseException {		
+	public void EntrarConta() throws ParseException {
 		System.out.println("\t************************************************************************************************************");
 		System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
 		System.out.println("\t************************************************************************************************************");
@@ -122,12 +126,18 @@ public class Banco {
 				System.out.print("\n\t >>> Digite a opção desejada: ");
 				switch(leitor.lerInteiro("[1-4]", "Digite a opção desejada: ")){
 					case 1:
+						verSaldo(cliente.getConta());
 						break;
 					case 2:
+						validarSaque(cliente, cliente.getConta());
 						break;
 					case 3:
+						validarDeposito(cliente, (IContaCC_CP) cliente.getConta());
 						break;
 					case 4:
+						//Escolhe Agencia
+						//Escolhe Conta
+						validarTransferencia(cliente, (IContaCC) cliente.getConta(), (IContaCC) validaContaDestino(0,0));
 						break;
 				}
 				break;
@@ -158,19 +168,19 @@ public class Banco {
 		}
 	}
 	
-	public void verSaldo(IPessoa<TipoPessoa> cliente) {
-		cliente.getConta().consultarSaldo();
+	public void verSaldo(IConta contaCliente) {
+		contaCliente.consultarSaldo();
 	}
 	
-	public void efetuarSaque(IPessoa<TipoPessoa> cliente) {
+	public void validarSaque(IPessoa<TipoPessoa> cliente, IConta contaCliente) {
 		double valor = 0;
 		
 		if(cliente.getTipoPessoa() == TipoPessoa.PJ) {
 			valor = valor + (valor * 0.005);
 		}
 		
-		if(validaSaldo(cliente, valor)) {
-			cliente.getConta().sacar(valor);
+		if(validaSaldo(contaCliente, valor)) {
+			contaCliente.sacar(valor);
 			System.out.println("\t Saque efetuado com sucesso");
 		}
 		else {
@@ -178,35 +188,40 @@ public class Banco {
 		}
 	}
 	
-	public void efetuarDeposito(IPessoa<TipoPessoa> cliente) {
+	public void validarDeposito(IPessoa<TipoPessoa> cliente, IContaCC_CP contaCliente) {
 		double valor = 0;
 		
 		if(cliente.getTipoPessoa() == TipoPessoa.PF && cliente.getConta().getTipoConta() == TipoConta.CP) {
 			valor = valor + (valor * 0.01);
 		}
 		
-		cliente.getConta().depositar(valor);
+		contaCliente.depositar(valor);
 		System.out.println("Depósito efetuado com sucesso!");
 	}
 	
-	public void efetuarTransferencia(IPessoa<TipoPessoa> clienteOrigem, IPessoa<TipoPessoa> clienteDestino) {
+	public void validarTransferencia(IPessoa<TipoPessoa> clienteOrigem, IContaCC contaClienteOrigem, IContaCC contaClienteDestino) {
 		double valor = 0;
 		
-		if(clienteOrigem.getTipoPessoa() == TipoPessoa.PJ) {
-			valor = valor + (valor * 0.005);
-		}
-		
-		if(validaSaldo(clienteOrigem, valor)) {
-			clienteOrigem.getConta().atualizarSaldo(clienteOrigem.getConta().consultarSaldo(), valor);
-			System.out.println("\t Transferência efetuada com sucesso!");
+		if(contaClienteDestino != null) {
+			if(clienteOrigem.getTipoPessoa() == TipoPessoa.PJ) {
+				valor = valor + (valor * 0.005);
+			}
+			
+			if(validaSaldo(clienteOrigem.getConta(), valor)) {
+				contaClienteOrigem.transferir(-valor);
+				contaClienteDestino.receberTransferencia(valor);
+				System.out.println("\t Transferência efetuada com sucesso!");
+			}
+			else {
+				System.out.println("\t Saldo insuficiente!");
+			}
 		}
 		else {
-			System.out.println("\t Saldo insuficiente!");
+			System.out.println("\t Conta de destino inexistente!");
 		}
-		
 	}
 	
-	public void efetuarInvestimento(IPessoa<TipoPessoa> cliente) {
+	public void validarInvestimento(IPessoa<TipoPessoa> cliente, IContaCI contaCliente) {
 		double valor = 0;
 		
 		if(cliente.getTipoPessoa() == TipoPessoa.PF) {
@@ -215,7 +230,8 @@ public class Banco {
 		else {
 			valor = valor + (valor * 0.035);
 		}
-		cliente.getConta().investir(0);
+		
+		contaCliente.investir(valor);
 	}
 	
 	
@@ -225,10 +241,24 @@ public class Banco {
 	
 	
 	
+	public IContaCC validaContaDestino(int agenciaDestino, int contaDestino) {
+		for(int i = 0; i < getClientesPF().size(); i++) {
+			if(getClientesPF().get(i).getConta().getAgencia() == agenciaDestino && getClientesPF().get(i).getConta().getNumConta() == contaDestino) {
+				return (IContaCC) getClientesPF().get(i).getConta();
+			}
+		}
+		
+		for(int i = 0; i < getClientesPJ().size(); i++) {
+			if(getClientesPJ().get(i).getConta().getAgencia() == agenciaDestino && getClientesPJ().get(i).getConta().getNumConta() == contaDestino) {
+				return (IContaCC) getClientesPJ().get(i).getConta();
+			}
+		}
+		
+		return null;
+	}
 	
-	
-	public boolean validaSaldo(IPessoa<TipoPessoa> cliente, double valor) {
-		if(cliente.getConta().consultarSaldo() >= valor) {
+	public boolean validaSaldo(IConta contaCliente, double valor) {
+		if(contaCliente.consultarSaldo() >= valor) {
 			return true;
 		}
 		else {

@@ -2,8 +2,9 @@ package Models;
 
 import Enums.TipoConta;
 import Interfaces.IConta;
+import Interfaces.IContaCI;
 
-public class ContaInvestimento extends Conta implements IConta {
+public class ContaInvestimento extends Conta implements IConta, IContaCI {
 
 	public ContaInvestimento(int agencia, int conta, int senha) {
 		setAgencia(agencia);
@@ -22,12 +23,6 @@ public class ContaInvestimento extends Conta implements IConta {
 	public void sacar(double valor) {
 		atualizarSaldo(consultarSaldo(), -valor);
 	}
-
-	@Override
-	public void depositar(double valor) {}
-
-	@Override
-	public void transferir(ContaCorrente contaDestino, double valor) {}
 	
 	@Override
 	public void atualizarSaldo(double saldo, double valor) {
