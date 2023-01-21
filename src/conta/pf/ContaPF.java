@@ -5,12 +5,12 @@ import conta.modelos.TipoConta;
 
 public class ContaPF extends Conta {
     TipoContaPF tipoContaPF;
-    protected double txRendimento = 0.000;
-    protected double txTransferencia = 0.000;
-    protected double txSaque = 0.000;
     
     protected ContaPF(String numConta) {
         super(numConta + "-1");
+        txRendimento = 1.000;
+        txTransferencia = 1.000;
+        txSaque = 1.000;
     }
     
     @Override

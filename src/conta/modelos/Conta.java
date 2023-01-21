@@ -34,17 +34,17 @@ public abstract class Conta implements IConta<Conta, TipoConta>{
     
     @Override
     public void receberDeposito(double valor) {
-        setSaldo(getSaldo() + valor * (1 + txRendimento));
+        setSaldo(getSaldo() + valor * (txRendimento));
     }
     
     public void enviarTransferencia(Conta contaDestino, double valor) {
-        setSaldo(getSaldo() - valor * (1 + txTransferencia));
+        setSaldo(getSaldo() - valor * (txTransferencia));
         contaDestino.receberTransferencia(valor);
     }
     
     @Override
     public void sacarDaConta(double valor) {
-        setSaldo(getSaldo() - valor * (1 + txSaque));
+        setSaldo(getSaldo() - valor * (txSaque));
     }
     
 }

@@ -2,17 +2,14 @@ package conta.pj;
 
 import conta.modelos.Conta;
 import conta.modelos.TipoConta;
-import conta.pf.ContaPFCorrente;
-import conta.pf.ContaPFInvestimento;
 
 public class ContaPJ extends Conta {
     TipoContaPJ tipoContaPJ;
-    protected double txRendimento = 0.000;
-    protected double txTransferencia = 0.005;
-    protected double txSaque = 0.005;
     
     protected ContaPJ(String numConta) {
         super(numConta + "-1");
+        txTransferencia = 1.005;
+        txSaque = 1.005;
     }
     
     @Override
