@@ -5,6 +5,8 @@ import conta.modelos.TipoConta;
 
 public class ContaPJ extends Conta {
     TipoContaPJ tipoContaPJ;
+    public ContaPJCorrente contaPJCorrente;
+    public ContaPJInvestimento contaPJInvestimento;
     
     protected ContaPJ(String numConta) {
         super(numConta + "-1");
@@ -13,16 +15,26 @@ public class ContaPJ extends Conta {
     }
     
     @Override
-    public void criarConta(TipoConta tipoConta) {
-        String numConta = "2001"; // a definir ainda
+    public void criarConta(TipoConta tipoConta, String idCliente) {
+        String numConta = idCliente;
         double saldoInicial = 0;
         switch (tipoConta) {
-            case CORRENTE -> new ContaPJCorrente(numConta, saldoInicial);
-            case INVESTIMENTO -> new ContaPJInvestimento(numConta, saldoInicial);
+            case CORRENTE -> contaPJCorrente = new ContaPJCorrente(numConta+"-21", saldoInicial);
+            case INVESTIMENTO -> contaPJInvestimento = new ContaPJInvestimento(numConta+"-22", saldoInicial);
         }
     }
-    
+
     public TipoContaPJ getTipoDeConta() {
         return tipoContaPJ;
+    }
+
+    @Override
+    public String getNumConta(TipoConta tipoConta) {
+        String conta = null;
+        switch (tipoConta){
+            case CORRENTE -> conta = contaPJCorrente.numConta;
+            case INVESTIMENTO ->  conta = contaPJInvestimento.numConta;
+        }
+        return conta;
     }
 }

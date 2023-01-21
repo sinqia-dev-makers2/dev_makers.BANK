@@ -7,5 +7,5 @@ public interface IConta<T extends Conta, S extends TipoConta> {
     void receberDeposito(double valor);
     void enviarTransferencia(T contaDestino,double valor);
     void sacarDaConta(double valor);
-    void criarConta(S tipoConta);
+    void criarConta(S tipoConta, String idCliente);
 }

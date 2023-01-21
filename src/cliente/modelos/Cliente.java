@@ -8,14 +8,14 @@ public abstract class Cliente implements ICliente<Conta, TipoConta>{
     private TipoIDCliente tipoIDCliente;
     
     private String nomeDoCliente;
-    protected String numIDCliente;
+    public String numIDCliente;
     protected String senhaDoCliente;
     
     public Conta contaDoCliente;
-    // public Conta[] contasDesseCliente; cada cliente pode ter mais de uma conta, uma de cada tipo
     
-    protected Cliente(String nomeDoCliente) {
+    protected Cliente(String nomeDoCliente, String numID) {
         this.nomeDoCliente = nomeDoCliente;
+        this.numIDCliente = numID;
     }
     
     public double consultarSaldo(Conta contaConsultada) {
@@ -59,7 +59,11 @@ public abstract class Cliente implements ICliente<Conta, TipoConta>{
     }
     
     
-    public abstract void abrirConta(TipoConta tipoConta);
+    public void abrirConta(TipoConta tipoConta, String idCliente){
+        contaDoCliente.criarConta(tipoConta, idCliente);
+    }
 
-
+    public void cadastrarSenha(String senha){
+        this.senhaDoCliente = senha;
+    }
 }

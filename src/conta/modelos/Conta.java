@@ -1,20 +1,20 @@
 package conta.modelos;
 
+import conta.pf.ContaPFCorrente;
+import conta.pf.ContaPFInvestimento;
+import conta.pf.ContaPFPoupanca;
+import conta.pj.ContaPJCorrente;
+import conta.pj.ContaPJInvestimento;
+
 public abstract class Conta implements IConta<Conta, TipoConta>{
-    private String numConta;
+    public String numConta;
     protected double saldo;
     public double txRendimento;
     public double txTransferencia;
     public double txSaque;
-    
     protected Conta(String numConta) {
         this.numConta = numConta;
     }
-    
-    public String getNumConta() {
-        return numConta;
-    }
-
 
     public double getSaldo() {
         return saldo;
@@ -29,22 +29,26 @@ public abstract class Conta implements IConta<Conta, TipoConta>{
     }
     
     public void receberTransferencia(double valor) {
-        setSaldo(getSaldo() + valor);
+        atualizarSaldo(getSaldo() + valor);
     }
     
     @Override
     public void receberDeposito(double valor) {
-        setSaldo(getSaldo() + valor * (txRendimento));
+        atualizarSaldo(getSaldo() + valor * (txRendimento));
     }
     
     public void enviarTransferencia(Conta contaDestino, double valor) {
-        setSaldo(getSaldo() - valor * (txTransferencia));
+        atualizarSaldo(getSaldo() - valor * (txTransferencia));
         contaDestino.receberTransferencia(valor);
     }
     
     @Override
     public void sacarDaConta(double valor) {
-        setSaldo(getSaldo() - valor * (txSaque));
+        atualizarSaldo(getSaldo() - valor * (txSaque));
     }
-    
+
+    public abstract void criarConta(TipoConta tipoConta, String idCliente);
+
+    public abstract String getNumConta(TipoConta tipoConta);
+
 }

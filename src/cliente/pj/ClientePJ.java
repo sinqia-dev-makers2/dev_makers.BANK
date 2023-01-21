@@ -10,14 +10,7 @@ public class ClientePJ extends Cliente {
     TipoDeCliente tipoDeCliente = TipoDeCliente.JURIDICA;
     TipoIDCliente tipoIDCliente = TipoIDCliente.CNPJ;
     
-    public ClientePJ(String nomeDoCliente) {
-        super(nomeDoCliente);
+    public ClientePJ(String nomeDoCliente, String numID) {
+        super(nomeDoCliente, numID);
     }
-    
-    @Override
-    public void abrirConta(TipoConta tipoConta) {
-        contaDoCliente.criarConta(tipoConta);
-    }
-    
-    
 }

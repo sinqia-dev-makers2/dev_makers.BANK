@@ -9,14 +9,7 @@ public class ClientePF extends Cliente{
     TipoDeCliente tipoDeCliente = TipoDeCliente.FISICA;
     TipoIDCliente tipoIDCliente = TipoIDCliente.CPF;
     
-    public ClientePF(String nomeDoCliente) {
-        super(nomeDoCliente);
+    public ClientePF(String nomeDoCliente, String numID) {
+        super(nomeDoCliente, numID);
     }
-    
-    @Override
-    public void abrirConta(TipoConta tipoConta) {
-        contaDoCliente.criarConta(tipoConta);
-    }
-    
-    
 }
