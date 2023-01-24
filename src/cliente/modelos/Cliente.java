@@ -3,19 +3,28 @@ package cliente.modelos;
 import conta.modelos.Conta;
 import conta.modelos.TipoConta;
 
-public abstract class Cliente implements ICliente<Conta, TipoConta>{
-    private TipoDeCliente tipoDeCliente;
-    private TipoIDCliente tipoIDCliente;
+import java.util.Scanner;
+
+public class Cliente implements ICliente<Conta, TipoConta>{
+    Scanner sc = new Scanner(System.in);
+    
+    public TipoDeCliente tipoDeCliente;
+    private TipoDocCliente tipoDocCliente;
     
     private String nomeDoCliente;
+    private String docCliente;
+    
     public String numIDCliente;
     protected String senhaDoCliente;
     
     public Conta contaDoCliente;
     
-    protected Cliente(String nomeDoCliente, String numID) {
+    public Cliente(TipoDeCliente tipoDeCliente, String nomeDoCliente, TipoDocCliente tipoDocCliente, String docCliente, String numIDCliente) {
+        this.tipoDeCliente = tipoDeCliente;
         this.nomeDoCliente = nomeDoCliente;
-        this.numIDCliente = numID;
+        this.tipoDocCliente = tipoDocCliente;
+        this.docCliente = docCliente;
+        this.numIDCliente = numIDCliente;
     }
     
     public double consultarSaldo(Conta contaConsultada) {
@@ -46,11 +55,11 @@ public abstract class Cliente implements ICliente<Conta, TipoConta>{
         }
     }
     
-    String getNomeDoCliente() {
+    public String getNomeDoCliente() {
         return nomeDoCliente;
     }
     
-    TipoDeCliente getTipoDePessoa() {
+    public TipoDeCliente getTipoDePessoa() {
         return tipoDeCliente;
     }
     
@@ -62,8 +71,40 @@ public abstract class Cliente implements ICliente<Conta, TipoConta>{
     public void abrirConta(TipoConta tipoConta, String idCliente){
         contaDoCliente.criarConta(tipoConta, idCliente);
     }
-
+    
+    @Override
     public void cadastrarSenha(String senha){
         this.senhaDoCliente = senha;
+    }
+    
+    public TipoConta escolherConta(TipoDeCliente tipoDeCliente) {
+        TipoConta tipoConta = null;
+        switch (tipoDeCliente) {
+            case FISICA -> tipoConta = getTipoContaPF();
+            case JURIDICA -> tipoConta = getTipoContaPJ();
+        }
+        return tipoConta;
+    }
+    
+    private TipoConta getTipoContaPF() {
+        TipoConta tipoConta = null;
+        String input = sc.nextLine();
+        switch (input) {
+            case "corrente" -> tipoConta = TipoConta.PF_CORRENTE;
+            case "poupança" -> tipoConta = TipoConta.PF_POUPANCA;
+            case "investimento" -> tipoConta = TipoConta.PF_INVESTIMENTO;
+            default -> getTipoContaPF();
+        }
+        return tipoConta;
+    }
+    private TipoConta getTipoContaPJ() {
+        TipoConta tipoConta = null;
+        String input = sc.nextLine();
+        switch (input) {
+            case "corrente" -> tipoConta = TipoConta.PJ_CORRENTE;
+            case "investimento" -> tipoConta = TipoConta.PJ_INVESTIMENTO;
+            default -> getTipoContaPJ();
+        }
+        return tipoConta;
     }
 }
