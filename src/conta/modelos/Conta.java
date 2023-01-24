@@ -3,10 +3,10 @@ package conta.modelos;
 public abstract class Conta implements IConta<Conta, TipoConta>{
     public String numConta;
     protected double saldo;
-    public double txRendimento;
+    public double txInvestimento;
     public double txTransferencia;
     public double txSaque;
-    protected Conta(String numConta) {
+    public Conta(String numConta) {
         this.numConta = numConta;
     }
 
@@ -28,7 +28,7 @@ public abstract class Conta implements IConta<Conta, TipoConta>{
     
     @Override
     public void receberDeposito(double valor) {
-        atualizarSaldo(getSaldo() + valor * (txRendimento));
+        atualizarSaldo(getSaldo() + valor * (txInvestimento));
     }
     
     public void enviarTransferencia(Conta numContaDestino, double valor) {
@@ -43,6 +43,6 @@ public abstract class Conta implements IConta<Conta, TipoConta>{
 
     public abstract void criarConta(TipoConta tipoConta, String idCliente);
 
-    public abstract String getNumConta(TipoConta tipoConta);
+    //public abstract String getNumConta(TipoConta tipoConta);
 
 }

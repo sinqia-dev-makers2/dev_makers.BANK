@@ -5,64 +5,57 @@ import cliente.modelos.TipoDeCliente;
 import cliente.modelos.TipoDocCliente;
 import conta.modelos.TipoConta;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Banco {
     Scanner sc = new Scanner(System.in);
-    
-    List<Cliente> clientes = new ArrayList<>();
-    public int numClientes = 0;
+    Map<String, Cliente> clientesMAP = new HashMap<>();
     public int numClientesPF = 0;
     public int numClientesPJ = 0;
 
-//    List<Cliente> clientesPF = new ArrayList<>();
-//    List<Cliente> clientesPJ = new ArrayList<>();
-    
-    public void main() {
+    public void iniciar() {
         cadastrarCliente();
     }
-    
-    public void cadastrarCliente(){
+
+    public void cadastrarCliente() {
         TipoDeCliente tipoDeCliente = getTipoDeCliente();
         String nomeDoCliente = getNomeCliente();
         TipoDocCliente tipoDocCliente = getTipoDoc(tipoDeCliente);
         String docCliente = getDocCliente(tipoDeCliente);
-        
+
         Cliente cliente = new Cliente(tipoDeCliente, nomeDoCliente, tipoDocCliente, docCliente, criarID(tipoDeCliente));
-        
+
         cliente.cadastrarSenha("escreva sua senha amigo :D");
-        
-        clientes.add(cliente);
-        
+
         switch (tipoDeCliente) {
             case FISICA -> numClientesPF++;
             case JURIDICA -> numClientesPJ++;
         }
-        numClientes++;
-        
+
         cadastrarConta(cliente, cliente.escolherConta(cliente.tipoDeCliente));
+        clientesMAP.put(cliente.contaDoCliente.numConta, cliente);
     }
-    
+
     private TipoDeCliente getTipoDeCliente() {
         TipoDeCliente tipoDeCliente = null;
         System.out.printf("\n Informe o tipo de cliente:\n 1 - PF (Pessoa Física)\n 2 - PJ (Pessoa Jurídica)");
         int inputTipoCliente = sc.nextInt();
         sc.nextLine();
         switch (inputTipoCliente) {
-            case 1: tipoDeCliente = TipoDeCliente.FISICA;
-            case 2: tipoDeCliente = TipoDeCliente.JURIDICA;
+            case 1:
+                tipoDeCliente = TipoDeCliente.FISICA;
+            case 2:
+                tipoDeCliente = TipoDeCliente.JURIDICA;
         }
         return tipoDeCliente;
     }
-    
+
     private String getNomeCliente() {
         System.out.println(" Digite o nome do cliente:");
         String nomeDoCliente = sc.nextLine();
         return nomeDoCliente;
     }
-    
+
     private TipoDocCliente getTipoDoc(TipoDeCliente tipoDeCliente) {
         TipoDocCliente tipoDocCliente = null;
         switch (tipoDeCliente) {
@@ -71,7 +64,7 @@ public class Banco {
         }
         return tipoDocCliente;
     }
-    
+
     private String getDocCliente(TipoDeCliente tipoDeCliente) {
         String docCliente = null;
         switch (tipoDeCliente) {
@@ -88,14 +81,14 @@ public class Banco {
         }
         return docCliente;
     }
-    
-    public void cadastrarConta(Cliente cliente, TipoConta tipoConta){
+
+    public void cadastrarConta(Cliente cliente, TipoConta tipoConta) {
         cliente.abrirConta(tipoConta, cliente.numIDCliente);
     }
 
-    public String criarID(TipoDeCliente tipoDeCliente){
+    public String criarID(TipoDeCliente tipoDeCliente) {
         int idCliente = 0;
-        switch (tipoDeCliente){
+        switch (tipoDeCliente) {
             case FISICA -> idCliente = 1000000 + parcialID() + (numClientesPF + 1);
             case JURIDICA -> idCliente = 2000000 + parcialID() + (numClientesPJ + 1);
         }
@@ -107,8 +100,17 @@ public class Banco {
         */
         return String.valueOf(idCliente); // ex: "1143078" ou "2458189"
     }
-    
-    private int parcialID(){
-        return (1000 * (numClientes + 1));
+
+    private int parcialID() {
+        return (1000 * (clientesMAP.size() + 1));
+    }
+
+    private Cliente buscarConta(String numConta) {
+        if (clientesMAP.get(numConta) != null) {
+            return clientesMAP.get(numConta);
+        } else {
+            System.out.println("Cliente não encontrado.");
+            return null;
+        }
     }
 }
