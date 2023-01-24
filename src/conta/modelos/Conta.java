@@ -2,6 +2,7 @@ package conta.modelos;
 
 public abstract class Conta implements IConta<Conta, TipoConta>{
     public String numConta;
+    TipoConta tipoConta;
     protected double saldo;
     public double txInvestimento;
     public double txTransferencia;

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ContaPJ extends Conta {
-    TipoConta tipoContaPJ;
+//    TipoConta tipoContaPJ;
     Map<String, ContaPJ> contasMAP = new HashMap<>();
     
     protected ContaPJ(String numConta) {

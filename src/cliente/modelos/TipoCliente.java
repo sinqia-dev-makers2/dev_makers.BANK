@@ -1,7 +1,7 @@
 package cliente.modelos;
 
 public enum TipoCliente {
-    FISICA , JURIDICA;
+    FISICA, JURIDICA;
     
     public static TipoCliente getTipoCliente(int input) {
         TipoCliente tipoCliente = null;
@@ -11,12 +11,12 @@ public enum TipoCliente {
         }
         return tipoCliente;
     }
-    public static TipoDocCliente getTipoDoc(TipoCliente tipoCliente) {
-        TipoDocCliente tipoDocCliente = null;
+    public static TipoDoc getTipoDoc(TipoCliente tipoCliente) {
+        TipoDoc tipoDoc = null;
         switch (tipoCliente) {
-            case FISICA -> tipoDocCliente = TipoDocCliente.CPF;
-            case JURIDICA -> tipoDocCliente = TipoDocCliente.CNPJ;
+            case FISICA -> tipoDoc = TipoDoc.CPF;
+            case JURIDICA -> tipoDoc = TipoDoc.CNPJ;
         }
-        return tipoDocCliente;
+        return tipoDoc;
     }
 }

@@ -9,18 +9,20 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     Scanner sc = new Scanner(System.in);
     
     final public TipoCliente tipoCliente;
-    final private TipoDocCliente tipoDocCliente;
+    final private TipoDoc tipoDoc;
     private String nomeDoCliente;
     final private String docCliente;
     public String numIDCliente;
     protected String senhaDoCliente;
     
+    public static int totalClientes;
+    
     public Conta contaDoCliente;
     
-    public Cliente(TipoCliente tipoCliente, String nomeDoCliente, TipoDocCliente tipoDocCliente, String docCliente, String numIDCliente) {
+    public Cliente(TipoCliente tipoCliente, String nomeDoCliente, TipoDoc tipoDoc, String docCliente, String numIDCliente) {
         this.tipoCliente = tipoCliente;
         this.nomeDoCliente = nomeDoCliente;
-        this.tipoDocCliente = tipoDocCliente;
+        this.tipoDoc = tipoDoc;
         this.docCliente = docCliente;
         this.numIDCliente = numIDCliente;
     }
@@ -47,15 +49,11 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     
     public void transferir(Conta contaOrigem, Conta contaDestino, double valorTransferencia) {
         if (verificarDisponibilidade(contaOrigem,valorTransferencia + (valorTransferencia * contaOrigem.txTransferencia))) {
-            contaOrigem.enviarTransferencia(contaDestino, valorTransferencia);
+            contaOrigem.enviarTransferencia(contaDestino, valorTransferencia); //lembrar de verificar se a contaDestino é válida!
         } else {
             System.out.println("Saldo insuficiente!");
         }
     }
-    
-//    private void setNomeDoCliente(String nomeDoCliente) {
-//        this.nomeDoCliente = nomeDoCliente;
-//    }
     
     public void abrirConta(TipoConta tipoConta, String idCliente){
         contaDoCliente.criarConta(tipoConta, idCliente);
@@ -77,7 +75,7 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     
     private TipoConta getTipoContaPF() {
         TipoConta tipoConta = null;
-        System.out.println("Informe o tipo de conta PF");
+        System.out.println("Informe o tipo de conta PF:"); // MENU: 1; 2; 3
         int input = sc.nextInt();
         sc.nextLine();
         switch (input) {
@@ -90,7 +88,7 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     }
     private TipoConta getTipoContaPJ() {
         TipoConta tipoConta = null;
-        System.out.println("Informe o tipo de conta PJ");
+        System.out.println("Informe o tipo de conta PJ:"); // MENU: 1; 3
         int input = sc.nextInt();
         sc.nextLine();
         switch (input) {

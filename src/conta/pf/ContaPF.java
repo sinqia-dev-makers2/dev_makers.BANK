@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ContaPF extends Conta {
     public double txPoupanca;
-    TipoConta tipoContaPF;
+//    TipoConta tipoContaPF;
     Map<String, ContaPF> contasMAP = new HashMap<>();
 
     protected ContaPF(String numConta) {

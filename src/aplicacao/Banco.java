@@ -2,7 +2,7 @@ package aplicacao;
 
 import cliente.modelos.Cliente;
 import cliente.modelos.TipoCliente;
-import cliente.modelos.TipoDocCliente;
+import cliente.modelos.TipoDoc;
 import conta.modelos.TipoConta;
 
 import java.util.*;
@@ -11,22 +11,25 @@ public class Banco {
     Scanner sc = new Scanner(System.in);
     Map<String, Cliente> clientesMAP = new HashMap<>();
     public int numClientesPF = 0;
+    //    public int numClientesPF = ClientePF.totalClientes;
     public int numClientesPJ = 0;
+    //    public int numClientesPF = ClientePF.totalClientes;
 
     public void iniciar() {
         // MENU INICIAL DO BANCO
         // poderia carregar clientes e contas préviamente cadastrados agora
 //        carregarBD();
-        cadastrarCliente();
+        cadastrarCliente(); // opçao 1
+//        logarClient(); // opçao 2
     }
 
     public void cadastrarCliente() {
         TipoCliente tipoCliente = getTipoDeCliente();
         String nomeDoCliente = getNomeCliente();
-        TipoDocCliente tipoDocCliente = TipoCliente.getTipoDoc(tipoCliente);
+        TipoDoc tipoDoc = TipoCliente.getTipoDoc(tipoCliente);
         String docCliente = getDocCliente(tipoCliente);
 
-        Cliente cliente = new Cliente(tipoCliente, nomeDoCliente, tipoDocCliente, docCliente, criarID(tipoCliente));
+        Cliente cliente = new Cliente(tipoCliente, nomeDoCliente, tipoDoc, docCliente, criarID(tipoCliente));
 
         cliente.cadastrarSenha("escreva sua senha amigo :D");
 
