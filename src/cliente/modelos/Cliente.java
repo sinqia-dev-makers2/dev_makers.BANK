@@ -8,19 +8,17 @@ import java.util.Scanner;
 public class Cliente implements ICliente<Conta, TipoConta>{
     Scanner sc = new Scanner(System.in);
     
-    public TipoDeCliente tipoDeCliente;
-    private TipoDocCliente tipoDocCliente;
-    
+    final public TipoCliente tipoCliente;
+    final private TipoDocCliente tipoDocCliente;
     private String nomeDoCliente;
-    private String docCliente;
-    
+    final private String docCliente;
     public String numIDCliente;
     protected String senhaDoCliente;
     
     public Conta contaDoCliente;
     
-    public Cliente(TipoDeCliente tipoDeCliente, String nomeDoCliente, TipoDocCliente tipoDocCliente, String docCliente, String numIDCliente) {
-        this.tipoDeCliente = tipoDeCliente;
+    public Cliente(TipoCliente tipoCliente, String nomeDoCliente, TipoDocCliente tipoDocCliente, String docCliente, String numIDCliente) {
+        this.tipoCliente = tipoCliente;
         this.nomeDoCliente = nomeDoCliente;
         this.tipoDocCliente = tipoDocCliente;
         this.docCliente = docCliente;
@@ -55,18 +53,9 @@ public class Cliente implements ICliente<Conta, TipoConta>{
         }
     }
     
-    public String getNomeDoCliente() {
-        return nomeDoCliente;
-    }
-    
-    public TipoDeCliente getTipoDePessoa() {
-        return tipoDeCliente;
-    }
-    
-    protected String getSenhaDoCliente() {
-        return senhaDoCliente;
-    }
-    
+//    private void setNomeDoCliente(String nomeDoCliente) {
+//        this.nomeDoCliente = nomeDoCliente;
+//    }
     
     public void abrirConta(TipoConta tipoConta, String idCliente){
         contaDoCliente.criarConta(tipoConta, idCliente);
@@ -77,9 +66,9 @@ public class Cliente implements ICliente<Conta, TipoConta>{
         this.senhaDoCliente = senha;
     }
     
-    public TipoConta escolherConta(TipoDeCliente tipoDeCliente) {
+    public TipoConta escolherConta(TipoCliente tipoCliente) {
         TipoConta tipoConta = null;
-        switch (tipoDeCliente) {
+        switch (tipoCliente) {
             case FISICA -> tipoConta = getTipoContaPF();
             case JURIDICA -> tipoConta = getTipoContaPJ();
         }
@@ -88,21 +77,25 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     
     private TipoConta getTipoContaPF() {
         TipoConta tipoConta = null;
-        String input = sc.nextLine();
+        System.out.println("Informe o tipo de conta PF");
+        int input = sc.nextInt();
+        sc.nextLine();
         switch (input) {
-            case "corrente" -> tipoConta = TipoConta.PF_CORRENTE;
-            case "poupança" -> tipoConta = TipoConta.PF_POUPANCA;
-            case "investimento" -> tipoConta = TipoConta.PF_INVESTIMENTO;
+            case 1 -> tipoConta = TipoConta.PF_CORRENTE;
+            case 2 -> tipoConta = TipoConta.PF_POUPANCA;
+            case 3 -> tipoConta = TipoConta.PF_INVESTIMENTO;
             default -> getTipoContaPF();
         }
         return tipoConta;
     }
     private TipoConta getTipoContaPJ() {
         TipoConta tipoConta = null;
-        String input = sc.nextLine();
+        System.out.println("Informe o tipo de conta PJ");
+        int input = sc.nextInt();
+        sc.nextLine();
         switch (input) {
-            case "corrente" -> tipoConta = TipoConta.PJ_CORRENTE;
-            case "investimento" -> tipoConta = TipoConta.PJ_INVESTIMENTO;
+            case 1 -> tipoConta = TipoConta.PJ_CORRENTE;
+            case 3 -> tipoConta = TipoConta.PJ_INVESTIMENTO;
             default -> getTipoContaPJ();
         }
         return tipoConta;

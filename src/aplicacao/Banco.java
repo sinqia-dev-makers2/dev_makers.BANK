@@ -1,7 +1,7 @@
 package aplicacao;
 
 import cliente.modelos.Cliente;
-import cliente.modelos.TipoDeCliente;
+import cliente.modelos.TipoCliente;
 import cliente.modelos.TipoDocCliente;
 import conta.modelos.TipoConta;
 
@@ -14,81 +14,67 @@ public class Banco {
     public int numClientesPJ = 0;
 
     public void iniciar() {
+        // MENU INICIAL DO BANCO
+        // poderia carregar clientes e contas préviamente cadastrados agora
+//        carregarBD();
         cadastrarCliente();
     }
 
     public void cadastrarCliente() {
-        TipoDeCliente tipoDeCliente = getTipoDeCliente();
+        TipoCliente tipoCliente = getTipoDeCliente();
         String nomeDoCliente = getNomeCliente();
-        TipoDocCliente tipoDocCliente = getTipoDoc(tipoDeCliente);
-        String docCliente = getDocCliente(tipoDeCliente);
+        TipoDocCliente tipoDocCliente = TipoCliente.getTipoDoc(tipoCliente);
+        String docCliente = getDocCliente(tipoCliente);
 
-        Cliente cliente = new Cliente(tipoDeCliente, nomeDoCliente, tipoDocCliente, docCliente, criarID(tipoDeCliente));
+        Cliente cliente = new Cliente(tipoCliente, nomeDoCliente, tipoDocCliente, docCliente, criarID(tipoCliente));
 
         cliente.cadastrarSenha("escreva sua senha amigo :D");
 
-        switch (tipoDeCliente) {
+        switch (tipoCliente) {
             case FISICA -> numClientesPF++;
             case JURIDICA -> numClientesPJ++;
         }
 
-        cadastrarConta(cliente, cliente.escolherConta(cliente.tipoDeCliente));
+        cadastrarConta(cliente, cliente.escolherConta(cliente.tipoCliente));
         clientesMAP.put(cliente.contaDoCliente.numConta, cliente);
     }
 
-    private TipoDeCliente getTipoDeCliente() {
-        TipoDeCliente tipoDeCliente = null;
-        System.out.printf("\n Informe o tipo de cliente:\n 1 - PF (Pessoa Física)\n 2 - PJ (Pessoa Jurídica)");
+    private TipoCliente getTipoDeCliente() {
+        System.out.print("\n Informe o tipo de cliente:\n 1 - PF (Pessoa Física)\n 2 - PJ (Pessoa Jurídica)");
         int inputTipoCliente = sc.nextInt();
         sc.nextLine();
-        switch (inputTipoCliente) {
-            case 1:
-                tipoDeCliente = TipoDeCliente.FISICA;
-            case 2:
-                tipoDeCliente = TipoDeCliente.JURIDICA;
-        }
-        return tipoDeCliente;
+        return TipoCliente.getTipoCliente(inputTipoCliente);
     }
 
     private String getNomeCliente() {
         System.out.println(" Digite o nome do cliente:");
-        String nomeDoCliente = sc.nextLine();
-        return nomeDoCliente;
+        return sc.nextLine();
     }
 
-    private TipoDocCliente getTipoDoc(TipoDeCliente tipoDeCliente) {
-        TipoDocCliente tipoDocCliente = null;
-        switch (tipoDeCliente) {
-            case FISICA -> tipoDocCliente = TipoDocCliente.CPF;
-            case JURIDICA -> tipoDocCliente = TipoDocCliente.CNPJ;
-        }
-        return tipoDocCliente;
-    }
+//    private TipoDocCliente getTipoDoc(TipoCliente tipoCliente) {
+//        TipoDocCliente tipoDocCliente = null;
+//        switch (tipoCliente) {
+//            case FISICA -> tipoDocCliente = TipoDocCliente.CPF;
+//            case JURIDICA -> tipoDocCliente = TipoDocCliente.CNPJ;
+//        }
+//        return tipoDocCliente;
+//    }
 
-    private String getDocCliente(TipoDeCliente tipoDeCliente) {
-        String docCliente = null;
-        switch (tipoDeCliente) {
-            case FISICA -> {
-                System.out.println("Digite o CPF do cliente:");
-                String cpf = sc.nextLine();
-                docCliente = cpf;
-            }
-            case JURIDICA -> {
-                System.out.println("Digite o CNPJ do cliente:");
-                String cnpj = sc.nextLine();
-                docCliente = cnpj;
-            }
+    private String getDocCliente(TipoCliente tipoCliente) {
+        switch (tipoCliente) {
+            case FISICA -> System.out.println("Digite o CPF do cliente:");
+            case JURIDICA -> System.out.println("Digite o CNPJ do cliente:");
         }
-        return docCliente;
+        return sc.nextLine();
     }
 
     public void cadastrarConta(Cliente cliente, TipoConta tipoConta) {
         cliente.abrirConta(tipoConta, cliente.numIDCliente);
     }
 
-    public String criarID(TipoDeCliente tipoDeCliente) {
+    public String criarID(TipoCliente tipoCliente) {
         int idCliente = 0;
-        switch (tipoDeCliente) {
+        switch (tipoCliente) {
             case FISICA -> idCliente = 1000000 + parcialID() + (numClientesPF + 1);
             case JURIDICA -> idCliente = 2000000 + parcialID() + (numClientesPJ + 1);
         }

@@ -43,6 +43,6 @@ public abstract class Conta implements IConta<Conta, TipoConta>{
 
     public abstract void criarConta(TipoConta tipoConta, String idCliente);
 
-    //public abstract String getNumConta(TipoConta tipoConta);
+//    public abstract TipoConta getTipoConta(TipoConta tipoConta);
 
 }

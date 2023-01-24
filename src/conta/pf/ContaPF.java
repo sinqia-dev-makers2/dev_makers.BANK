@@ -22,26 +22,16 @@ public class ContaPF extends Conta {
 
     @Override
     public void criarConta(TipoConta tipoConta, String idCliente) {
-        String numConta = idCliente;
         switch (tipoConta) {
-            case PF_CORRENTE -> contasMAP.put("11", new ContaPF(numConta + "-11"));
-            case PF_POUPANCA -> contasMAP.put("12", new ContaPF(numConta + "-12"));
-            case PF_INVESTIMENTO -> contasMAP.put("13", new ContaPF(numConta + "-13"));
+            case PF_CORRENTE -> contasMAP.put("11", new ContaPF(idCliente + "-11"));
+            case PF_POUPANCA -> contasMAP.put("12", new ContaPF(idCliente + "-12"));
+            case PF_INVESTIMENTO -> contasMAP.put("13", new ContaPF(idCliente + "-13"));
         }
     }
-
-    public TipoConta getTipoDeConta() {
-        return tipoContaPF;
-    }
-
+    
 //    @Override
-//    public String getNumConta(TipoConta tipoConta) {
-//        String conta = null;
-//        switch (tipoConta) {
-//            case PF_CORRENTE -> conta = contaPFCorrente.numConta;
-//            case PF_POUPANCA -> conta = contaPFPoupanca.numConta;
-//            case PF_INVESTIMENTO -> conta = contaPFInvestimento.numConta;
-//        }
-//        return conta;
+//    public TipoConta getTipoConta(TipoConta tipoConta) {
+//        return tipoContaPF;
 //    }
+
 }
