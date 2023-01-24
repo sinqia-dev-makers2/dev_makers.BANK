@@ -1,7 +1,9 @@
 package conta.pf;
 
+import conta.modelos.TipoConta;
+
 public class ContaPFCorrente extends ContaPF {
-    TipoContaPF tipoContaPF = TipoContaPF.CORRENTE;
+    TipoConta tipoContaPF = TipoConta.PF_CORRENTE;
     
     public ContaPFCorrente(String numConta, double saldo) {
         super(numConta + "1");

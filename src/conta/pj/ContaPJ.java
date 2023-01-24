@@ -4,7 +4,7 @@ import conta.modelos.Conta;
 import conta.modelos.TipoConta;
 
 public class ContaPJ extends Conta {
-    TipoContaPJ tipoContaPJ;
+    TipoConta tipoContaPJ;
     public ContaPJCorrente contaPJCorrente;
     public ContaPJInvestimento contaPJInvestimento;
     
@@ -19,12 +19,12 @@ public class ContaPJ extends Conta {
         String numConta = idCliente;
         double saldoInicial = 0;
         switch (tipoConta) {
-            case CORRENTE -> contaPJCorrente = new ContaPJCorrente(numConta+"-21", saldoInicial);
-            case INVESTIMENTO -> contaPJInvestimento = new ContaPJInvestimento(numConta+"-22", saldoInicial);
+            case PJ_CORRENTE -> contaPJCorrente = new ContaPJCorrente(numConta+"-21", saldoInicial);
+            case PJ_INVESTIMENTO -> contaPJInvestimento = new ContaPJInvestimento(numConta+"-22", saldoInicial);
         }
     }
 
-    public TipoContaPJ getTipoDeConta() {
+    public TipoConta getTipoDeConta() {
         return tipoContaPJ;
     }
 
@@ -32,8 +32,8 @@ public class ContaPJ extends Conta {
     public String getNumConta(TipoConta tipoConta) {
         String conta = null;
         switch (tipoConta){
-            case CORRENTE -> conta = contaPJCorrente.numConta;
-            case INVESTIMENTO ->  conta = contaPJInvestimento.numConta;
+            case PJ_CORRENTE -> conta = contaPJCorrente.numConta;
+            case PJ_INVESTIMENTO ->  conta = contaPJInvestimento.numConta;
         }
         return conta;
     }

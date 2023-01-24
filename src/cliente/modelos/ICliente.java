@@ -13,7 +13,7 @@ public interface ICliente<T extends Conta, S extends TipoConta>{
 
     void transferir(T contaOrigem, T contaDestino, double valor);
     
-    void abrirConta(S tipoConta, String idConta);
+    void abrirConta(S tipoConta, String idCliente);
     
-    
+    void cadastrarSenha(String senha);
 }

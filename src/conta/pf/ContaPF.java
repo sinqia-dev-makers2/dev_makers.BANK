@@ -4,7 +4,7 @@ import conta.modelos.Conta;
 import conta.modelos.TipoConta;
 
 public class ContaPF extends Conta {
-    TipoContaPF tipoContaPF;
+    TipoConta tipoContaPF;
     public ContaPFCorrente contaPFCorrente;
     public ContaPFPoupanca contaPFPoupanca;
     public ContaPFInvestimento contaPFInvestimento;
@@ -21,13 +21,13 @@ public class ContaPF extends Conta {
         String numConta = idCliente;
         double saldoInicial = 0;
         switch (tipoConta) {
-            case CORRENTE -> contaPFCorrente = new ContaPFCorrente(numConta+"-11", saldoInicial);
-            case POUPANCA -> contaPFPoupanca = new ContaPFPoupanca(numConta+"-12", saldoInicial);
-            case INVESTIMENTO -> contaPFInvestimento = new ContaPFInvestimento(numConta+"-13", saldoInicial);
+            case PF_CORRENTE -> contaPFCorrente = new ContaPFCorrente(numConta+"-11", saldoInicial);
+            case PF_POUPANCA -> contaPFPoupanca = new ContaPFPoupanca(numConta+"-12", saldoInicial);
+            case PF_INVESTIMENTO -> contaPFInvestimento = new ContaPFInvestimento(numConta+"-13", saldoInicial);
         }
     }
     
-    public TipoContaPF getTipoDeConta() {
+    public TipoConta getTipoDeConta() {
         return tipoContaPF;
     }
 
@@ -35,9 +35,9 @@ public class ContaPF extends Conta {
     public String getNumConta(TipoConta tipoConta) {
         String conta = null;
         switch (tipoConta){
-            case CORRENTE -> conta = contaPFCorrente.numConta;
-            case POUPANCA -> conta = contaPFPoupanca.numConta;
-            case INVESTIMENTO ->  conta = contaPFInvestimento.numConta;
+            case PF_CORRENTE -> conta = contaPFCorrente.numConta;
+            case PF_POUPANCA -> conta = contaPFPoupanca.numConta;
+            case PF_INVESTIMENTO ->  conta = contaPFInvestimento.numConta;
         }
         return conta;
     }

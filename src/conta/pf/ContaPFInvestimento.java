@@ -1,7 +1,9 @@
 package conta.pf;
 
+import conta.modelos.TipoConta;
+
 public class ContaPFInvestimento extends ContaPF {
-    TipoContaPF tipoContaPF = TipoContaPF.INVESTIMENTO;
+    TipoConta tipoContaPF = TipoConta.PF_INVESTIMENTO;
     
     public ContaPFInvestimento(String numConta, double saldo) {
         super(numConta + "3");

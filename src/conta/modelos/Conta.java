@@ -1,11 +1,5 @@
 package conta.modelos;
 
-import conta.pf.ContaPFCorrente;
-import conta.pf.ContaPFInvestimento;
-import conta.pf.ContaPFPoupanca;
-import conta.pj.ContaPJCorrente;
-import conta.pj.ContaPJInvestimento;
-
 public abstract class Conta implements IConta<Conta, TipoConta>{
     public String numConta;
     protected double saldo;
@@ -37,9 +31,9 @@ public abstract class Conta implements IConta<Conta, TipoConta>{
         atualizarSaldo(getSaldo() + valor * (txRendimento));
     }
     
-    public void enviarTransferencia(Conta contaDestino, double valor) {
+    public void enviarTransferencia(Conta numContaDestino, double valor) {
         atualizarSaldo(getSaldo() - valor * (txTransferencia));
-        contaDestino.receberTransferencia(valor);
+        numContaDestino.receberTransferencia(valor);
     }
     
     @Override

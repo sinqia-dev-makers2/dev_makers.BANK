@@ -1,7 +1,9 @@
 package conta.pj;
 
+import conta.modelos.TipoConta;
+
 public class ContaPJInvestimento extends ContaPJ {
-    TipoContaPJ tipoContaPJ = TipoContaPJ.INVESTIMENTO;
+    TipoConta tipoContaPJ = TipoConta.PJ_INVESTIMENTO;
     
     public ContaPJInvestimento(String numConta, double saldo) {
         super(numConta + "3");
