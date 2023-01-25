@@ -15,7 +15,7 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     public String numIDCliente;
     protected String senhaDoCliente;
     
-    public static int totalClientes;
+//    public static int totalClientes; // tbm é uma opçao usar um atributo static como contador, incrementando a cada novo usuário criado
     
     public Conta contaDoCliente;
     
@@ -25,6 +25,7 @@ public class Cliente implements ICliente<Conta, TipoConta>{
         this.tipoDoc = tipoDoc;
         this.docCliente = docCliente;
         this.numIDCliente = numIDCliente;
+//        totalClientes++; // caso a gente resolva usar esse parâmentro como contador
     }
     
     public double consultarSaldo(Conta contaConsultada) {

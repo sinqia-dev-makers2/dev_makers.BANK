@@ -10,34 +10,31 @@ import java.util.*;
 public class Banco {
     Scanner sc = new Scanner(System.in);
     Map<String, Cliente> clientesMAP = new HashMap<>();
-    public int numClientesPF = 0;
-    //    public int numClientesPF = ClientePF.totalClientes;
-    public int numClientesPJ = 0;
-    //    public int numClientesPF = ClientePF.totalClientes;
+//    public int numClientesTotal = Cliente.totalClientes; // acessando o atributo static usado como contador
+    public int numClientesPF = 0; // precisamos considerar quantos clientes PF foram adicionados via carregarBD() e somar!
+    public int numClientesPJ = 0; // precisamos considerar quantos clientes PJ foram adicionados via carregarBD() e somar!
 
     public void iniciar() {
         // MENU INICIAL DO BANCO
         // poderia carregar clientes e contas préviamente cadastrados agora
-//        carregarBD();
+//        carregarBD(); // poderia até ser uma opção oculta, que não estaria descrita no MENU, opção 0?
         cadastrarCliente(); // opçao 1
 //        logarClient(); // opçao 2
+//        depositar(); // opçao 3
+//        fecharAplicacao(); // opcao X
     }
 
     public void cadastrarCliente() {
         TipoCliente tipoCliente = getTipoDeCliente();
         String nomeDoCliente = getNomeCliente();
-        TipoDoc tipoDoc = TipoCliente.getTipoDoc(tipoCliente);
+        TipoDoc tipoDoc = getTipoDoc(tipoCliente);
         String docCliente = getDocCliente(tipoCliente);
-
         Cliente cliente = new Cliente(tipoCliente, nomeDoCliente, tipoDoc, docCliente, criarID(tipoCliente));
-
         cliente.cadastrarSenha("escreva sua senha amigo :D");
-
         switch (tipoCliente) {
             case FISICA -> numClientesPF++;
             case JURIDICA -> numClientesPJ++;
         }
-
         cadastrarConta(cliente, cliente.escolherConta(cliente.tipoCliente));
         clientesMAP.put(cliente.contaDoCliente.numConta, cliente);
     }
@@ -52,6 +49,10 @@ public class Banco {
     private String getNomeCliente() {
         System.out.println(" Digite o nome do cliente:");
         return sc.nextLine();
+    }
+    
+    private TipoDoc getTipoDoc(TipoCliente tipoCliente){
+        return TipoCliente.getTipoDoc(tipoCliente);
     }
 
 //    private TipoDocCliente getTipoDoc(TipoCliente tipoCliente) {
