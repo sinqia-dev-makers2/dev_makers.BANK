@@ -35,7 +35,7 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     }
     
     public boolean sacar(Conta contaRetirada, int valorRetirada) {
-        if (verificarDisponibilidade(contaRetirada,valorRetirada + (valorRetirada * contaRetirada.txSaque))) {
+        if (verificarDisponibilidade(contaRetirada,valorRetirada * contaRetirada.txSaque)) {
             contaRetirada.sacarDaConta(valorRetirada);
             return true;
         } else {
@@ -43,14 +43,13 @@ public class Cliente implements ICliente<Conta, TipoConta>{
         }
     }
     
-    public boolean verificarDisponibilidade(Conta contaConsulta, Double valorDaTransacao){
+    public boolean verificarDisponibilidade(Conta contaConsulta, double valorDaTransacao){
         return (valorDaTransacao <= consultarSaldo(contaConsulta));
     }
     
     public boolean transferir(Conta contaOrigem, Conta contaDestino, double valorTransferencia) {
-    	System.out.println();
-        if (verificarDisponibilidade(contaOrigem,valorTransferencia * contaOrigem.txTransferencia)) {
-            contaOrigem.enviarTransferencia(contaDestino, valorTransferencia); //lembrar de verificar se a contaDestino é válida!
+        if (verificarDisponibilidade(contaOrigem, valorTransferencia * contaOrigem.txTransferencia)) {
+            contaOrigem.enviarTransferencia(contaDestino, valorTransferencia);
             return true;
         } else {
             return false;
