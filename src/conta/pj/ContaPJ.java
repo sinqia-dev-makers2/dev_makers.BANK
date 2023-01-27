@@ -3,12 +3,7 @@ package conta.pj;
 import conta.modelos.Conta;
 import conta.modelos.TipoConta;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ContaPJ extends Conta {
-
-    Map<String, ContaPJ> contasMAP = new HashMap<>();
     
     public ContaPJ(String numConta) {
         super(numConta);

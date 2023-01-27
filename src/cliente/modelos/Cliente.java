@@ -15,7 +15,7 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     final private String docCliente;
     public String numIDCliente;
     protected String senhaDoCliente;
-        
+           
     public Conta contaDoCliente;
     
     public Cliente(TipoCliente tipoCliente, String nomeDoCliente, TipoDoc tipoDoc, String docCliente, String numIDCliente) {

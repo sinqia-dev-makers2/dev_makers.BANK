@@ -347,7 +347,7 @@ public class Banco {
 		contaAux = leitor.lerTexto("(\\d{7})(-)(\\d{2})", "Conta (Ex: 123-12): ");
 		System.out.print("\t >>> Senha: ");
 		senhaAux = leitor.lerTexto("", "Senha: ");
-		
+				
 		if(buscarConta(contaAux.split("-")[0]) != null) {
 			clienteAux = buscarConta(contaAux.split("-")[0]);
 			if(clienteAux.getSenha().equals(senhaAux)) {

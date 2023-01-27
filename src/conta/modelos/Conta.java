@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import conta.pf.ContaPF;
-
 public abstract class Conta implements IConta<Conta, TipoConta>{
     public String numConta;
     public TipoConta tipoConta;
@@ -16,7 +14,7 @@ public abstract class Conta implements IConta<Conta, TipoConta>{
     public double txTransferencia;
     public double txSaque;
     
-    public Map<String, ContaPF> contasMAP = new HashMap<>();
+    public Map<String, Conta> contasMAP = new HashMap<>();
     
     public Conta(String numConta) {
         this.numConta = numConta;

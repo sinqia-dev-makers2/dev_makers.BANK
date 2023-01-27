@@ -4,7 +4,7 @@ import conta.modelos.Conta;
 import conta.modelos.TipoConta;
 
 public class ContaPF extends Conta {
-
+	
     public ContaPF(String numConta) {
         super(numConta);
         txTransferencia = 1;
