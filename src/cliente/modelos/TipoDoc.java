@@ -1,5 +1,5 @@
 package cliente.modelos;
 
-public enum TipoDocCliente {
+public enum TipoDoc {
     CPF, CNPJ
 }

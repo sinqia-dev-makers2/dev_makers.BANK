@@ -2,27 +2,26 @@ package cliente.modelos;
 
 import conta.modelos.Conta;
 import conta.modelos.TipoConta;
-
-import java.util.Scanner;
+import conta.pf.ContaPF;
+import conta.pj.ContaPJ;
+import utilitarios.LeitorDeDados;
 
 public class Cliente implements ICliente<Conta, TipoConta>{
-    Scanner sc = new Scanner(System.in);
-    
-    public TipoDeCliente tipoDeCliente;
-    private TipoDocCliente tipoDocCliente;
-    
+		
+    LeitorDeDados leitor = new LeitorDeDados();
+    final public TipoCliente tipoCliente;
+    final private TipoDoc tipoDoc;
     private String nomeDoCliente;
-    private String docCliente;
-    
+    final private String docCliente;
     public String numIDCliente;
     protected String senhaDoCliente;
-    
+           
     public Conta contaDoCliente;
     
-    public Cliente(TipoDeCliente tipoDeCliente, String nomeDoCliente, TipoDocCliente tipoDocCliente, String docCliente, String numIDCliente) {
-        this.tipoDeCliente = tipoDeCliente;
+    public Cliente(TipoCliente tipoCliente, String nomeDoCliente, TipoDoc tipoDoc, String docCliente, String numIDCliente) {
+        this.tipoCliente = tipoCliente;
         this.nomeDoCliente = nomeDoCliente;
-        this.tipoDocCliente = tipoDocCliente;
+        this.tipoDoc = tipoDoc;
         this.docCliente = docCliente;
         this.numIDCliente = numIDCliente;
     }
@@ -32,44 +31,40 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     }
     
     public void depositar(Conta contaDeposito, double valorDeposito) {
-        contaDeposito.receberDeposito(valorDeposito);
+        contaDeposito.receberDeposito(contaDeposito.getTipoConta(),valorDeposito);
     }
     
-    public void sacar(Conta contaRetirada, double valorRetirada) {
-        if (verificarDisponibilidade(contaRetirada,valorRetirada + (valorRetirada * contaRetirada.txSaque))) {
+    public boolean sacar(Conta contaRetirada, int valorRetirada) {
+        if (verificarDisponibilidade(contaRetirada,valorRetirada * contaRetirada.txSaque)) {
             contaRetirada.sacarDaConta(valorRetirada);
+            return true;
         } else {
-            System.out.println("Saldo insuficiente");
+            return false;
         }
     }
     
-    public boolean verificarDisponibilidade(Conta contaConsulta, Double valorDaTransacao){
+    public boolean verificarDisponibilidade(Conta contaConsulta, double valorDaTransacao){
         return (valorDaTransacao <= consultarSaldo(contaConsulta));
     }
     
-    public void transferir(Conta contaOrigem, Conta contaDestino, double valorTransferencia) {
-        if (verificarDisponibilidade(contaOrigem,valorTransferencia + (valorTransferencia * contaOrigem.txTransferencia))) {
+    public boolean transferir(Conta contaOrigem, Conta contaDestino, double valorTransferencia) {
+        if (verificarDisponibilidade(contaOrigem, valorTransferencia * contaOrigem.txTransferencia)) {
             contaOrigem.enviarTransferencia(contaDestino, valorTransferencia);
+            return true;
         } else {
-            System.out.println("Saldo insuficiente!");
+            return false;
         }
     }
     
-    public String getNomeDoCliente() {
-        return nomeDoCliente;
-    }
-    
-    public TipoDeCliente getTipoDePessoa() {
-        return tipoDeCliente;
-    }
-    
-    protected String getSenhaDoCliente() {
-        return senhaDoCliente;
-    }
-    
-    
     public void abrirConta(TipoConta tipoConta, String idCliente){
-        contaDoCliente.criarConta(tipoConta, idCliente);
+        if(tipoConta == TipoConta.PF_CORRENTE || tipoConta == TipoConta.PF_POUPANCA || tipoConta == TipoConta.PF_INVESTIMENTO) {
+        	contaDoCliente = new ContaPF(idCliente);
+        	contaDoCliente.criarConta(tipoConta, idCliente);
+        }
+        else {
+        	contaDoCliente = new ContaPJ(idCliente);
+        	contaDoCliente.criarConta(tipoConta, idCliente);
+        }
     }
     
     @Override
@@ -77,9 +72,9 @@ public class Cliente implements ICliente<Conta, TipoConta>{
         this.senhaDoCliente = senha;
     }
     
-    public TipoConta escolherConta(TipoDeCliente tipoDeCliente) {
+    public TipoConta escolherConta(TipoCliente tipoCliente) {
         TipoConta tipoConta = null;
-        switch (tipoDeCliente) {
+        switch (tipoCliente) {
             case FISICA -> tipoConta = getTipoContaPF();
             case JURIDICA -> tipoConta = getTipoContaPJ();
         }
@@ -88,23 +83,55 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     
     private TipoConta getTipoContaPF() {
         TipoConta tipoConta = null;
-        String input = sc.nextLine();
-        switch (input) {
-            case "corrente" -> tipoConta = TipoConta.PF_CORRENTE;
-            case "poupança" -> tipoConta = TipoConta.PF_POUPANCA;
-            case "investimento" -> tipoConta = TipoConta.PF_INVESTIMENTO;
+        System.out.println("\t >>> Tipo de conta ");
+        System.out.println("\t\t 1 - Corrente");
+		System.out.println("\t\t 2 - Poupança");
+		System.out.println("\t\t 3 - Investimento");
+		System.out.print("\t >>> Digite a opção desejada: ");
+		switch(leitor.lerInteiro("[1-3]", "Digite a opção desejada: ")) {
+            case 1 -> tipoConta = TipoConta.PF_CORRENTE;
+            case 2 -> tipoConta = TipoConta.PF_POUPANCA;
+            case 3 -> tipoConta = TipoConta.PF_INVESTIMENTO;
             default -> getTipoContaPF();
         }
         return tipoConta;
     }
+    
     private TipoConta getTipoContaPJ() {
         TipoConta tipoConta = null;
-        String input = sc.nextLine();
-        switch (input) {
-            case "corrente" -> tipoConta = TipoConta.PJ_CORRENTE;
-            case "investimento" -> tipoConta = TipoConta.PJ_INVESTIMENTO;
+        System.out.println("\t >>> Tipo de conta ");
+        System.out.println("\t\t 1 - Corrente");
+		System.out.println("\t\t 2 - Investimento");
+		System.out.print("\t >>> Digite a opção desejada: ");
+		switch(leitor.lerInteiro("[1-2]", "Digite a opção desejada: ")) {
+            case 1 -> tipoConta = TipoConta.PJ_CORRENTE;
+            case 3 -> tipoConta = TipoConta.PJ_INVESTIMENTO;
             default -> getTipoContaPJ();
         }
         return tipoConta;
     }
+
+	@Override
+	public TipoCliente getTipoCliente() {
+		return tipoCliente;
+	}
+
+	@Override
+	public TipoDoc getTipoDoc() {
+		return tipoDoc;
+	}
+
+	@Override
+	public String getNumDoc() {
+		return docCliente;
+	}
+	
+	public String getSenha() {
+		return senhaDoCliente;
+	}
+
+	public String getNomeDoCliente() {
+		return nomeDoCliente;
+	}
+	
 }
