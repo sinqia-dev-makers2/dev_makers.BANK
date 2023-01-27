@@ -1,19 +1,24 @@
 package cliente.modelos;
 
 import conta.modelos.Conta;
-import conta.modelos.TipoConta;
 
-public interface ICliente<T extends Conta, S extends TipoConta>{
+public interface ICliente<T extends Conta, S>{
     
     double consultarSaldo(T conta);
     
     void depositar(T conta, double valor);
     
-    void sacar(T conta, double valor);
+    boolean sacar(T conta, int valor);
 
-    void transferir(T contaOrigem, T contaDestino, double valor);
+    boolean transferir(T contaOrigem, T contaDestino, double valor);
     
     void abrirConta(S tipoConta, String idCliente);
     
     void cadastrarSenha(String senha);
+    
+    TipoCliente getTipoCliente();
+    
+    TipoDoc getTipoDoc();
+    
+    String getNumDoc();
 }
