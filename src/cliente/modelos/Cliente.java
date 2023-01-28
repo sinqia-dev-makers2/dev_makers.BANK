@@ -105,7 +105,7 @@ public class Cliente implements ICliente<Conta, TipoConta>{
 		System.out.print("\t >>> Digite a opção desejada: ");
 		switch(leitor.lerInteiro("[1-2]", "Digite a opção desejada: ")) {
             case 1 -> tipoConta = TipoConta.PJ_CORRENTE;
-            case 3 -> tipoConta = TipoConta.PJ_INVESTIMENTO;
+            case 2 -> tipoConta = TipoConta.PJ_INVESTIMENTO;
             default -> getTipoContaPJ();
         }
         return tipoConta;
