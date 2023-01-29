@@ -58,11 +58,15 @@ public class Cliente implements ICliente<Conta, TipoConta>{
     
     public void abrirConta(TipoConta tipoConta, String idCliente){
         if(tipoConta == TipoConta.PF_CORRENTE || tipoConta == TipoConta.PF_POUPANCA || tipoConta == TipoConta.PF_INVESTIMENTO) {
-        	contaDoCliente = new ContaPF(idCliente);
+        	if(contaDoCliente == null) {
+        		contaDoCliente = new ContaPF(idCliente);
+        	}
         	contaDoCliente.criarConta(tipoConta, idCliente);
         }
         else {
-        	contaDoCliente = new ContaPJ(idCliente);
+        	if(contaDoCliente == null) {
+        		contaDoCliente = new ContaPJ(idCliente);
+        	}
         	contaDoCliente.criarConta(tipoConta, idCliente);
         }
     }
