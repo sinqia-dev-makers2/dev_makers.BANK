@@ -22,19 +22,25 @@ public class LeitorDeDados {
 	}
 	
 	public double lerDecimal(String regex, String msg) {
-		texto = sc.nextLine();
-		while (!texto.matches(regex) || texto.contains(" ")) {
-			System.out.println("\t\t\t\t\t\t Erro! Digite o valor novamente!");
-			System.out.print("\t >>> " + msg);
+		try {
 			texto = sc.nextLine();
+			while (!texto.matches(regex) || texto.contains(" ")) {
+				System.out.println("\t\t\t\t\t\t Erro! Digite o valor novamente!");
+				System.out.print("\t >>> " + msg);
+				texto = sc.nextLine();
+			}
+			decimal = Double.parseDouble(texto);
+		} catch (Exception e) {
+			System.out.println("\t\t\t\t\t\t Erro! Digite o valor novamente!");
+			System.out.print("\t >>> Digite o valor que deseja transferir (Ex: 1 ou 1.1 ou 1.11) (0 para cancelar): R$");
+			lerDecimal(regex, msg);
 		}
-		decimal = Double.parseDouble(texto);
 		return decimal;
 	}
 	
 	public char lerCaracter(String regex, String msg) {
 		texto = sc.nextLine();
-		while(texto.trim().length() > 1 || texto.trim().length() == 0 || !texto.toLowerCase().matches(regex) || texto.contains(" ")) {
+		while(texto.trim().length() != 1 || !texto.toLowerCase().matches(regex) || texto.contains(" ")) {
 			System.out.println("\t\t\t\t\t\t Erro! Digite o caracter novamente!");
 			System.out.print("\t >>> " + msg);
 			texto = sc.nextLine();

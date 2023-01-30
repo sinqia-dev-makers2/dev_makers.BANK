@@ -10,9 +10,9 @@ public class Cliente implements ICliente<Conta, TipoConta>{
 		
     LeitorDeDados leitor = new LeitorDeDados();
     final public TipoCliente tipoCliente;
-    final private TipoDoc tipoDoc;
-    private String nomeDoCliente;
-    final private String docCliente;
+    protected final TipoDoc tipoDoc;
+    private final String nomeDoCliente;
+    protected final String docCliente;
     public String numIDCliente;
     protected String senhaDoCliente;
            
@@ -119,17 +119,7 @@ public class Cliente implements ICliente<Conta, TipoConta>{
 	public TipoCliente getTipoCliente() {
 		return tipoCliente;
 	}
-
-	@Override
-	public TipoDoc getTipoDoc() {
-		return tipoDoc;
-	}
-
-	@Override
-	public String getNumDoc() {
-		return docCliente;
-	}
-	
+ 
 	public String getSenha() {
 		return senhaDoCliente;
 	}

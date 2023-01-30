@@ -18,7 +18,4 @@ public interface ICliente<T extends Conta, S>{
     
     TipoCliente getTipoCliente();
     
-    TipoDoc getTipoDoc();
-    
-    String getNumDoc();
 }

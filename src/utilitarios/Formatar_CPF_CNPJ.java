@@ -13,12 +13,11 @@ public class Formatar_CPF_CNPJ {
         
         if(tipoPess == TipoCliente.FISICA) {
         	mf.setMask("###.###.###-##");
-        	return mf.valueToString(cpf_cnpj);
         }
         else {
         	mf.setMask("##.###.###/####-##");
-        	return mf.valueToString(cpf_cnpj);
         }
+        return mf.valueToString(cpf_cnpj);
     }
 	
 }

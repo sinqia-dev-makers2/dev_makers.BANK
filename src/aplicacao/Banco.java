@@ -3,6 +3,7 @@ package aplicacao;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import cliente.modelos.Cliente;
 import cliente.modelos.TipoCliente;
@@ -12,25 +13,26 @@ import utilitarios.Formatar_CPF_CNPJ;
 import utilitarios.LeitorDeDados;
 
 public class Banco {
-
+    
     LeitorDeDados leitor = new LeitorDeDados();
     Formatar_CPF_CNPJ formatar = new Formatar_CPF_CNPJ();
     Map<String, Cliente> clientesMAP = new HashMap<>();
-
+    
     public int numClientesPF = 0; // precisamos considerar quantos clientes PF foram adicionados via carregarBD() e somar!
     public int numClientesPJ = 0; // precisamos considerar quantos clientes PJ foram adicionados via carregarBD() e somar!
-
+    
     Cliente clienteAux;
     TipoConta tipoAux;
     String contaAux;
     String senhaAux;
-
+    
     public void iniciar() throws ParseException, InterruptedException {
         carregaDadosPrevios();
         menuInicio();
     }
-
-    public void carregaDadosPrevios() throws ParseException {
+    
+    
+    public void carregaDadosPrevios() {
         TipoCliente tipoCliente = TipoCliente.FISICA;
         String nomeDoCliente = "Matheus";
         TipoDoc tipoDoc = TipoDoc.CPF;
@@ -46,7 +48,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-11");
-
+        
         tipoCliente = TipoCliente.FISICA;
         nomeDoCliente = "Felipe";
         tipoDoc = TipoDoc.CPF;
@@ -62,7 +64,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-11");
-
+        
         tipoCliente = TipoCliente.JURIDICA;
         nomeDoCliente = "Richard";
         tipoDoc = TipoDoc.CNPJ;
@@ -78,7 +80,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-21");
-
+        
         tipoCliente = TipoCliente.JURIDICA;
         nomeDoCliente = "Wesley";
         tipoDoc = TipoDoc.CNPJ;
@@ -94,7 +96,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-23");
-
+        
         tipoCliente = TipoCliente.FISICA;
         nomeDoCliente = "Leonardo";
         tipoDoc = TipoDoc.CPF;
@@ -110,7 +112,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-12");
-
+        
         tipoCliente = TipoCliente.FISICA;
         nomeDoCliente = "Jackson";
         tipoDoc = TipoDoc.CPF;
@@ -128,7 +130,7 @@ public class Banco {
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-13");
         limpaMenu();
     }
-
+    
     public void cadastrarCliente() throws ParseException, InterruptedException {
         TipoCliente tipoCliente = getTipoDeCliente();
         String nomeDoCliente = getNomeCliente();
@@ -152,7 +154,7 @@ public class Banco {
                                         (tipoAux.toString().split("_")[1].equals("INVESTIMENTO") && tipoCliente == TipoCliente.JURIDICA) ? "23" : "12"));
         System.out.println("\t\t\t\t\t\t Voltando ao menu inicial!");
     }
-
+    
     private TipoCliente getTipoDeCliente() {
         System.out.println("\t >>> Tipo de pessoa ");
         System.out.println("\t\t 1 - Fisica");
@@ -161,21 +163,21 @@ public class Banco {
         int inputTipoCliente = leitor.lerInteiro("[1-2]", "Digite a opção desejada: ");
         return TipoCliente.getTipoCliente(inputTipoCliente);
     }
-
+    
     private String getNomeCliente() {
         System.out.print("\t >>> Nome e Sobrenome: ");
         return leitor.lerTexto("", "Nome e Sobrenome: ");
     }
-
+    
     private void cadastrarSenha(Cliente cliente) {
         System.out.print("\t >>> Digite sua senha (Min. 3 caracteres): ");
         cliente.cadastrarSenha(leitor.lerTexto("", "Digite sua senha (Min. 3 caracteres): "));
     }
-
+    
     private TipoDoc getTipoDoc(TipoCliente tipoCliente) {
         return TipoCliente.getTipoDoc(tipoCliente);
     }
-
+    
     private String getDocCliente(TipoCliente tipoCliente) throws ParseException {
         switch (tipoCliente) {
             case FISICA -> {
@@ -191,77 +193,72 @@ public class Banco {
             }
         }
     }
-
+    
     public void cadastrarConta(Cliente cliente, TipoConta tipoConta) throws ParseException, InterruptedException {
         tipoAux = tipoConta;
         switch (tipoConta) {
-            case PF_CORRENTE:
-            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
-            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("11") == null) {
+            case PF_CORRENTE -> {
+                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+                    if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("11") == null) {
                         cliente.abrirConta(tipoConta, cliente.numIDCliente + "-11");
                         return;
                     }
-            	}
-            	else {
-            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-11");
-            		return;
-            	}
-                break;
-            case PF_POUPANCA:
-            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
-            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("12") == null) {
+                } else {
+                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-11");
+                    return;
+                }
+            }
+            case PF_POUPANCA -> {
+                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+                    if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("12") == null) {
                         cliente.abrirConta(tipoConta, cliente.numIDCliente + "-12");
                         return;
                     }
-            	}
-            	else {
-            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-12");
-            		return;
-            	}
-                break;
-            case PF_INVESTIMENTO:
-            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
-            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("13") == null) {
+                } else {
+                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-12");
+                    return;
+                }
+            }
+            case PF_INVESTIMENTO -> {
+                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+                    if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("13") == null) {
                         cliente.abrirConta(tipoConta, cliente.numIDCliente + "-13");
                         return;
                     }
-            	}
-            	else {
-            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-13");
-            		return;
-            	}
-                break;
-            case PJ_CORRENTE:
-            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
-            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("21") == null) {
+                } else {
+                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-13");
+                    return;
+                }
+            }
+            case PJ_CORRENTE -> {
+                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+                    if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("21") == null) {
                         cliente.abrirConta(tipoConta, cliente.numIDCliente + "-21");
                         return;
                     }
-            	}
-            	else {
-            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-21");
-            		return;
-            	}
-                break;
-            case PJ_INVESTIMENTO:
-            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
-            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("23") == null) {
+                } else {
+                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-21");
+                    return;
+                }
+            }
+            case PJ_INVESTIMENTO -> {
+                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+                    if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("23") == null) {
                         cliente.abrirConta(tipoConta, cliente.numIDCliente + "-23");
                         return;
                     }
-            	}
-            	else {
-            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-23");
-            		return;
-            	}
-                break;
+                } else {
+                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-23");
+                    return;
+                }
+            }
         }
         System.out.println("\t\t\t\t\t\t Cliente já possui uma conta desse tipo aberta!");
         System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
         Thread.sleep(3000);
         menuClienteLogado(cliente, clienteAux.contaDoCliente.contasMAP.get(contaAux.split("-")[1]).tipoConta);
     }
-
+    
     public String criarID(TipoCliente tipoCliente) {
         int idCliente = 0;
         switch (tipoCliente) {
@@ -276,11 +273,11 @@ public class Banco {
         */
         return String.valueOf(idCliente); // ex: "1143078" ou "2458189"
     }
-
+    
     private int parcialID() {
         return (1000 * (clientesMAP.size() + 1));
     }
-
+    
     private Cliente buscarConta(String numConta) {
         if (clientesMAP.get(numConta) != null) {
             return clientesMAP.get(numConta);
@@ -289,26 +286,26 @@ public class Banco {
             return null;
         }
     }
-
+    
     // MENUS
-
+    
     public void limpaMenu() {
-        for (int i = 0; i < 5; i++) { /// Depois vou aumentar a quantidade de linhas para limpar a tela
+        for (int i = 0; i < 20; i++) { /// Depois vou aumentar a quantidade de linhas para limpar a tela
             System.out.println();
         }
     }
-
+    
     public void menuInicio() throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>> 1 - Realizar um depósito");
         System.out.println("\t >>> 2 - Entrar em sua conta");
         System.out.println("\t >>> 3 - Abrir uma conta");
         System.out.println("\t >>> 4 - Finalizar");
         System.out.print("\n\t >>> Digite a opção desejada: ");
-
+        
         switch (leitor.lerInteiro("[0-4]", "Digite a opção desejada: ")) {
             case 0 -> {
                 carregaDadosPrevios();
@@ -329,15 +326,15 @@ public class Banco {
             case 4 -> System.exit(0);
         }
     }
-
+    
     public void menuDepositoSemLogin() throws ParseException, InterruptedException {
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Siga as instruções abaixo para realizar um depósito <<<<<<");
         System.out.print("\t >>> Digite a conta que deseja depositar (Ex: 123-12): ");
         contaAux = leitor.lerTexto("(\\d{7})(-)(\\d{2})", "Digite a conta que deseja depositar (Ex: 123-12): ");
-
+        
         if (buscarConta(contaAux.split("-")[0]) != null) {
             clienteAux = buscarConta(contaAux.split("-")[0]);
             System.out.println("\n\t >>>>>>Dados da Conta: ");
@@ -368,20 +365,20 @@ public class Banco {
             menuInicio();
         }
     }
-
+    
     public void menuEntrarConta() throws ParseException, InterruptedException {
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>> Entre na sua conta\n");
         System.out.print("\t >>> Conta (Ex: 123-12): ");
         contaAux = leitor.lerTexto("(\\d{7})(-)(\\d{2})", "Conta (Ex: 123-12): ");
         System.out.print("\t >>> Senha: ");
         senhaAux = leitor.lerTexto("", "Senha: ");
-
+        
         if (buscarConta(contaAux.split("-")[0]) != null) {
             clienteAux = buscarConta(contaAux.split("-")[0]);
-            if (clienteAux.getSenha().equals(senhaAux)) {
+            if (Objects.requireNonNull(clienteAux).getSenha().equals(senhaAux)) {
                 if (clienteAux.contaDoCliente.contasMAP.get(contaAux.split("-")[1]) != null) {
                     System.out.println("\t\t\t\t\t\t Logado com sucesso, você será redirecionado!");
                     Thread.sleep(3000);
@@ -404,22 +401,22 @@ public class Banco {
             menuInicio();
         }
     }
-
+    
     public void menuAbrirConta() throws ParseException, InterruptedException {
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Siga as instruções abaixo para abrir uma conta <<<<<<\n");
         cadastrarCliente();
         Thread.sleep(3000);
         menuInicio();
     }
-
+    
     public void menuClienteLogado(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
-        int opcao;
+        int opcao = -1;
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Sr(a). " + clienteLogado.getNomeDoCliente());
         System.out.println("\t >>>>>> Pessoa " + clienteLogado.getTipoCliente());
@@ -429,6 +426,7 @@ public class Banco {
         switch (tipoContaSelecionado) {
             case PF_CORRENTE:
             case PJ_CORRENTE:
+            case PF_POUPANCA:
                 System.out.println("\t >>> Selecione uma das opções abaixo");
                 System.out.println("\t\t 1 - Saque");
                 System.out.println("\t\t 2 - Depositar");
@@ -444,54 +442,41 @@ public class Banco {
                 System.out.println("\t >>> Selecione uma das opções abaixo");
                 System.out.println("\t\t 1 - Saque");
                 System.out.println("\t\t 2 - Investir");
-                System.out.println("\t\t 3 - Ver outras contas");
-                System.out.println("\t\t 4 - Abrir nova conta");
-                System.out.println("\t\t 5 - Sair da conta");
+                System.out.println("\t\t 3 - Transferir");
+                System.out.println("\t\t 4 - Ver outras contas");
+                System.out.println("\t\t 5 - Abrir nova conta");
+                System.out.println("\t\t 6 - Sair da conta");
                 System.out.print("\t >>> Digite a opção desejada: ");
-                opcao = leitor.lerInteiro("[1-5]", "Digite a opção desejada: ");
+                opcao = leitor.lerInteiro("[1-6]", "Digite a opção desejada: ");
                 break;
             default:
-                System.out.println("\t >>> Selecione uma das opções abaixo");
-                System.out.println("\t\t 1 - Saque");
-                System.out.println("\t\t 2 - Depositar");
-                System.out.println("\t\t 3 - Ver outras contas");
-                System.out.println("\t\t 4 - Abrir nova conta");
-                System.out.println("\t\t 5 - Sair da conta");
-                System.out.print("\t >>> Digite a opção desejada: ");
-                opcao = leitor.lerInteiro("[1-5]", "Digite a opção desejada: ");
-                break;
+                System.out.println(" ");
         }
-
-
-        if (opcao == 1) {
-            menuSacar(clienteLogado, tipoContaSelecionado);
-        } else if ((tipoContaSelecionado == TipoConta.PF_CORRENTE || tipoContaSelecionado == TipoConta.PJ_CORRENTE || tipoContaSelecionado == TipoConta.PF_POUPANCA) && opcao == 2) {
-            menuDepositar(clienteLogado, tipoContaSelecionado);
-        } else if ((tipoContaSelecionado == TipoConta.PF_INVESTIMENTO || tipoContaSelecionado == TipoConta.PJ_INVESTIMENTO) && opcao == 2) {
-            menuInvestir(clienteLogado, tipoContaSelecionado);
-        } else if ((tipoContaSelecionado == TipoConta.PF_CORRENTE || tipoContaSelecionado == TipoConta.PJ_CORRENTE) && opcao == 3) {
-            menuTransferir(clienteLogado, tipoContaSelecionado);
-        } else if (((tipoContaSelecionado == TipoConta.PF_CORRENTE || tipoContaSelecionado == TipoConta.PJ_CORRENTE) && opcao == 4) ||
-                ((tipoContaSelecionado == TipoConta.PF_INVESTIMENTO || tipoContaSelecionado == TipoConta.PJ_INVESTIMENTO || tipoContaSelecionado == TipoConta.PF_POUPANCA) && opcao == 3)
-        ) {
-            menuVerContas(clienteLogado, tipoContaSelecionado);
-        } else if (((tipoContaSelecionado == TipoConta.PF_CORRENTE || tipoContaSelecionado == TipoConta.PJ_CORRENTE) && opcao == 5) ||
-                ((tipoContaSelecionado == TipoConta.PF_INVESTIMENTO || tipoContaSelecionado == TipoConta.PJ_INVESTIMENTO || tipoContaSelecionado == TipoConta.PF_POUPANCA) && opcao == 4)
-        ) {
-        	menuAbrirNovaConta(clienteLogado, tipoContaSelecionado);
-        } else if (((tipoContaSelecionado == TipoConta.PF_CORRENTE || tipoContaSelecionado == TipoConta.PJ_CORRENTE) && opcao == 6) ||
-                ((tipoContaSelecionado == TipoConta.PF_INVESTIMENTO || tipoContaSelecionado == TipoConta.PJ_INVESTIMENTO || tipoContaSelecionado == TipoConta.PF_POUPANCA) && opcao == 5)
-        ) {
-            System.out.println("\t\t\t\t\t\t Saindo da conta! Voltando ao menu inicial");
-            Thread.sleep(3000);
-            menuInicio();
+        
+        switch (opcao) {
+            case 1 -> menuSacar(clienteLogado, tipoContaSelecionado);
+            case 2 -> {
+                if ((tipoContaSelecionado == TipoConta.PF_CORRENTE || tipoContaSelecionado == TipoConta.PJ_CORRENTE || tipoContaSelecionado == TipoConta.PF_POUPANCA)) {
+                    menuDepositar(clienteLogado, tipoContaSelecionado);
+                } else if (tipoContaSelecionado == TipoConta.PF_INVESTIMENTO || tipoContaSelecionado == TipoConta.PJ_INVESTIMENTO) {
+                    menuInvestir(clienteLogado, tipoContaSelecionado);
+                }
+            }
+            case 3 -> menuTransferir(clienteLogado, tipoContaSelecionado);
+            case 4 -> menuVerContas(clienteLogado, tipoContaSelecionado);
+            case 5 -> menuAbrirNovaConta(clienteLogado, tipoContaSelecionado);
+            case 6 -> {
+                System.out.println("\t\t\t\t\t\t Saindo da conta! Voltando ao menu inicial");
+                Thread.sleep(1000);
+                menuInicio();
+            }
         }
     }
-
+    
     public void menuSacar(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Siga as instruções abaixo para sacar <<<<<<\n");
         System.out.println("\t >>> O saque será realizado da sua conta : " + tipoContaSelecionado.toString().split("_")[1] + "\n");
@@ -507,16 +492,16 @@ public class Banco {
         } else {
             System.out.println("\t\t\t\t\t\t Operação cancelada!");
         }
-
+        
         System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-
+    
     public void menuDepositar(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Siga as instruções abaixo para depositar <<<<<<\n");
         System.out.println("\t >>> O depósito será realizado na sua conta : " + tipoContaSelecionado.toString().split("_")[1] + "\n");
@@ -528,16 +513,16 @@ public class Banco {
         } else {
             System.out.println("\t\t\t\t\t\t Operação cancelada!");
         }
-
+        
         System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-
+    
     public void menuInvestir(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Siga as instruções abaixo para investir <<<<<<\n");
         System.out.println("\t >>> O investimento será realizado na sua conta : " + tipoContaSelecionado.toString().split("_")[1] + "\n");
@@ -553,11 +538,11 @@ public class Banco {
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-
+    
     public void menuTransferir(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Siga as instruções abaixo para realizar a transferencia <<<<<<\n");
         System.out.print("\t >>> Digite a conta de destino (Somente contas corrente recebem transferencias (sufixo 11 / 21) / 0 para cancelar): ");
@@ -566,7 +551,7 @@ public class Banco {
             if (buscarConta(contaDestino.split("-")[0]) != null) {
                 if (buscarConta(contaDestino.split("-")[0]).contaDoCliente.contasMAP.get(contaDestino.split("-")[1]) != null) {
                     System.out.print("\t >>> Digite o valor que deseja transferir (Ex: 1 ou 1.1 ou 1.11) (0 para cancelar): R$");
-                    double valorTransferencia = leitor.lerDecimal("(\\d+)||(\\.\\d{1,2})", "Digite o valor que deseja transferir (Ex: 1 ou 1.1 ou 1.11) (0 para cancelar): R$");
+                    double valorTransferencia = leitor.lerDecimal("^(\\d+(?:.\\d{1,2})?).*", "Digite o valor que deseja transferir (Ex: 1 ou 1.1 ou 1.11) (0 para cancelar): R$");
                     if (valorTransferencia > 0) {
                         if (clienteLogado.transferir(clienteLogado.contaDoCliente.contasMAP.get(contaAux.split("-")[1]), buscarConta(contaDestino.split("-")[0]).contaDoCliente.contasMAP.get(contaDestino.split("-")[1]), valorTransferencia)) {
                             System.out.println("\t >>>>>> Transferencia efetuada com sucesso!");
@@ -589,126 +574,129 @@ public class Banco {
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-
+    
     public void menuVerContas(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
-    	limpaMenu();
-    	TipoConta tipoAux = null;
-    	char escolhaTipoConta;
-    	String contaEscolhidaAux = "";
+        limpaMenu();
+        TipoConta tipoAux = null;
+        char escolhaTipoConta;
+        String contaEscolhidaAux = "";
         System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Abaixo segue suas contas abertas no banco <<<<<<\n");
-        for(int sufixoAux = 0; sufixoAux < 24; sufixoAux++) {
-        	if(clienteLogado.getTipoCliente() == TipoCliente.FISICA) {
-        		if(clienteLogado.contaDoCliente.contasMAP.get(String.valueOf(sufixoAux)) != null) {
-        			if(sufixoAux == 11) {
-        				System.out.println("\t >>> Corrente: " + clienteLogado.numIDCliente + "-11");
-        			}
-        			else if (sufixoAux == 12) {
-        				System.out.println("\t >>> Poupança: " + clienteLogado.numIDCliente + "-12");
-        			}
-        			else if (sufixoAux == 13){
-        				System.out.println("\t >>> Investimento: " + clienteLogado.numIDCliente + "-13");
-        			}
-        		}
-        		if(sufixoAux == 13) {
-        			break;
-        		}
-        	}
-        	else {
-        		if(clienteLogado.contaDoCliente.contasMAP.get(String.valueOf(sufixoAux)) != null) {
-        			if(sufixoAux == 21) {
-        				System.out.println("\t >>> Corrente: " + clienteLogado.numIDCliente + "-21");
-        			}
-        			else if(sufixoAux == 23){
-        				System.out.println("\t >>> Investimento: " + clienteLogado.numIDCliente + "-23");
-        			}
-        		}
-        	}
+        int[] sufix = {11, 12, 13, 21, 23};
+        for (int sufixoAux : sufix) {
+            if (clienteLogado.contaDoCliente.contasMAP.get(String.valueOf(sufixoAux)) != null) {
+                if (clienteLogado.getTipoCliente() == TipoCliente.FISICA) {
+                    if (sufixoAux == 11) {
+                        System.out.println("\t >>> Corrente: " + clienteLogado.numIDCliente + "-11");
+                    } else if (sufixoAux == 12) {
+                        System.out.println("\t >>> Poupança: " + clienteLogado.numIDCliente + "-12");
+                    } else if (sufixoAux == 13) {
+                        System.out.println("\t >>> Investimento: " + clienteLogado.numIDCliente + "-13");
+                    }
+                    
+                } else if (clienteLogado.getTipoCliente() == TipoCliente.JURIDICA) {
+                    if (sufixoAux == 21) {
+                        System.out.println("\t >>> Corrente: " + clienteLogado.numIDCliente + "-21");
+                    } else if (sufixoAux == 23) {
+                        System.out.println("\t >>> Investimento: " + clienteLogado.numIDCliente + "-23");
+                    }
+                }
+            }
         }
+        
         System.out.println("\n\t >>>>>> Deseja alterar a conta logada? (S)sim / (N)não");
         System.out.print("\t >>> Digite a opção: ");
-        if(leitor.lerCaracter("[snSN]", "Digite a opção: ") == 's') {
-        	if(clienteLogado.getTipoCliente() == TipoCliente.FISICA) {
-        		System.out.println("\n\t >>>>>> Escolha uma opção (Ex: C - Corrente, P - Poupança e I - Investimento)");
-            	System.out.print("\t >>> Digite a opção: ");
-            	escolhaTipoConta = leitor.lerCaracter("[CcPpIi]", "Digite a opção: ");
-            	switch(escolhaTipoConta) {
-            		case 'c' -> {tipoAux = TipoConta.PF_CORRENTE; contaEscolhidaAux = clienteLogado.numIDCliente + "-11";}
-            		case 'p' -> {tipoAux = TipoConta.PF_POUPANCA; contaEscolhidaAux = clienteLogado.numIDCliente + "-12";}
-            		case 'i' -> {tipoAux = TipoConta.PF_INVESTIMENTO; contaEscolhidaAux = clienteLogado.numIDCliente + "-13";}
-            	}
-            	if(contaAux.equals(contaEscolhidaAux)) {
-            		System.out.println("\n\t >>>>>> A conta selecionada é a mesma utilizada atualmente!");
-            		System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
-            		Thread.sleep(3000);
+        if (leitor.lerCaracter("[SsNn]", "Digite a opção: ") == 's') {
+            if (clienteLogado.getTipoCliente() == TipoCliente.FISICA) {
+                System.out.println("\n\t >>>>>> Escolha uma opção (Ex: C - Corrente, P - Poupança e I - Investimento)");
+                System.out.print("\t >>> Digite a opção: ");
+                escolhaTipoConta = leitor.lerCaracter("[CcPpIi]", "Digite a opção: ");
+                switch (escolhaTipoConta) {
+                    case 'c' -> {
+                        tipoAux = TipoConta.PF_CORRENTE;
+                        contaEscolhidaAux = clienteLogado.numIDCliente + "-11";
+                    }
+                    case 'p' -> {
+                        tipoAux = TipoConta.PF_POUPANCA;
+                        contaEscolhidaAux = clienteLogado.numIDCliente + "-12";
+                    }
+                    case 'i' -> {
+                        tipoAux = TipoConta.PF_INVESTIMENTO;
+                        contaEscolhidaAux = clienteLogado.numIDCliente + "-13";
+                    }
+                }
+                if (contaAux.equals(contaEscolhidaAux)) {
+                    System.out.println("\n\t >>>>>> A conta selecionada é a mesma utilizada atualmente!");
+                    System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
+                    Thread.sleep(3000);
                     menuClienteLogado(clienteLogado, tipoAux);
-            	}
-            	else {
-            		if(clienteLogado.contaDoCliente.contasMAP.get(contaEscolhidaAux.split("-")[1]) != null) {
-                		System.out.println("\n\t >>>>>> Conta selecionada com sucesso!");
-                		System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
-                		contaAux = contaEscolhidaAux;
-                		Thread.sleep(3000);
+                } else {
+                    if (clienteLogado.contaDoCliente.contasMAP.get(contaEscolhidaAux.split("-")[1]) != null) {
+                        System.out.println("\n\t >>>>>> Conta selecionada com sucesso!");
+                        System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
+                        contaAux = contaEscolhidaAux;
+                        Thread.sleep(3000);
                         menuClienteLogado(clienteLogado, tipoAux);
-                	}
-            		else {
-            			System.out.println("\n\t >>>>>> Você não possue uma conta desse tipo!");
-                		System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
-                		Thread.sleep(3000);
+                    } else {
+                        System.out.println("\n\t >>>>>> Você não possue uma conta desse tipo!");
+                        System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
+                        Thread.sleep(3000);
                         menuClienteLogado(clienteLogado, tipoContaSelecionado);
-            		}
-            	}
-        	}
-        	else {
-        		System.out.println("\n\t >>>>>> Escolha uma opção (Ex: C - Corrente e I - Investimento)");
-            	System.out.print("\t >>> Digite a opção: ");
-            	escolhaTipoConta = leitor.lerCaracter("[CcIi]", "Digite a opção: ");
-            	switch(escolhaTipoConta) {
-            		case 'c' -> {tipoAux = TipoConta.PJ_CORRENTE; contaEscolhidaAux = clienteLogado.numIDCliente + "-21";}
-            		case 'i' -> {tipoAux = TipoConta.PJ_INVESTIMENTO; contaEscolhidaAux = clienteLogado.numIDCliente + "-23";}
-            	}
-            	if(contaAux.equals(contaEscolhidaAux)) {
-            		System.out.println("\n\t >>>>>> A conta selecionada é a mesma utilizada atualmente!");
-            		System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
-            		Thread.sleep(3000);
+                    }
+                }
+            } else if (clienteLogado.getTipoCliente() == TipoCliente.JURIDICA) {
+                System.out.println("\n\t >>>>>> Escolha uma opção (Ex: C - Corrente e I - Investimento)");
+                System.out.print("\t >>> Digite a opção: ");
+                escolhaTipoConta = leitor.lerCaracter("[CcIi]", "Digite a opção: ");
+                switch (escolhaTipoConta) {
+                    case 'c' -> {
+                        tipoAux = TipoConta.PJ_CORRENTE;
+                        contaEscolhidaAux = clienteLogado.numIDCliente + "-21";
+                    }
+                    case 'i' -> {
+                        tipoAux = TipoConta.PJ_INVESTIMENTO;
+                        contaEscolhidaAux = clienteLogado.numIDCliente + "-23";
+                    }
+                }
+                if (contaAux.equals(contaEscolhidaAux)) {
+                    System.out.println("\n\t >>>>>> A conta selecionada é a mesma utilizada atualmente!");
+                    System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
+                    Thread.sleep(3000);
                     menuClienteLogado(clienteLogado, tipoAux);
-            	}
-            	else {
-            		if(clienteLogado.contaDoCliente.contasMAP.get(contaEscolhidaAux) != null) {
-                		System.out.println("\n\t >>>>>> Conta selecionada com sucesso!");
-                		System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
-                		contaAux = contaEscolhidaAux;
-                		Thread.sleep(3000);
+                } else {
+                    if (clienteLogado.contaDoCliente.contasMAP.get(contaEscolhidaAux.split("-")[1]) != null) {
+                        System.out.println("\n\t >>>>>> Conta selecionada com sucesso!");
+                        System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
+                        contaAux = contaEscolhidaAux;
+                        Thread.sleep(3000);
                         menuClienteLogado(clienteLogado, tipoAux);
-                	}
-            		else {
-            			System.out.println("\n\t >>>>>> Você não possue uma conta desse tipo!");
-                		System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
-                		Thread.sleep(3000);
+                    } else {
+                        System.out.println("\n\t >>>>>> Você não possue uma conta desse tipo!");
+                        System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
+                        Thread.sleep(3000);
                         menuClienteLogado(clienteLogado, tipoContaSelecionado);
-            		}
-            	}
-        	}
-        }
-        else {
-        	System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
-    		Thread.sleep(3000);
+                    }
+                }
+            }
+        } else {
+            System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
+            Thread.sleep(3000);
             menuClienteLogado(clienteLogado, tipoContaSelecionado);
         }
     }
-
+    
     public void menuAbrirNovaConta(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
-    	limpaMenu();
-    	System.out.println("\t************************************************************************************************************");
-        System.out.println("\t***********************************\tBem-Vindo ao Banco DevMakers \t ***********************************");
+        limpaMenu();
+        System.out.println("\t************************************************************************************************************");
+        System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t >>>>>> Siga as instruções abaixo para criar uma nova conta <<<<<<\n");
-    	cadastrarConta(clienteLogado, clienteLogado.escolherConta(clienteLogado.tipoCliente));
-    	System.out.println("\t >>>>>> Conta criada com sucesso! <<<<<<");
+        cadastrarConta(clienteLogado, clienteLogado.escolherConta(clienteLogado.tipoCliente));
+        System.out.println("\t >>>>>> Conta criada com sucesso! <<<<<<");
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-
+    
 }

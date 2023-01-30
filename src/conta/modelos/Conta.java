@@ -1,9 +1,10 @@
 package conta.modelos;
 
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import static java.text.NumberFormat.getCurrencyInstance;
 
 public abstract class Conta implements IConta<Conta, TipoConta>{
     public String numConta;
@@ -25,15 +26,11 @@ public abstract class Conta implements IConta<Conta, TipoConta>{
     }
     
     public String getSaldoFormatado() {
-    	return NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(getSaldo());
-    }
-
-    private void setSaldo(double saldo) {
-        this.saldo = saldo;
+    	return getCurrencyInstance(new Locale("pt", "BR")).format(getSaldo());
     }
     
     public void atualizarSaldo(double valor) {
-        setSaldo(valor);
+        this.saldo = valor;
     }
     
     public void receberTransferencia(double valor) {
