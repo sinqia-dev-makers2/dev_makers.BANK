@@ -168,8 +168,8 @@ public class Banco {
     }
 
     private void cadastrarSenha(Cliente cliente) {
-        System.out.print("\t >>> Digite sua senha: ");
-        cliente.cadastrarSenha(leitor.lerTexto("", "Digite sua senha: "));
+        System.out.print("\t >>> Digite sua senha (Min. 3 caracteres): ");
+        cliente.cadastrarSenha(leitor.lerTexto("", "Digite sua senha (Min. 3 caracteres): "));
     }
 
     private TipoDoc getTipoDoc(TipoCliente tipoCliente) {
