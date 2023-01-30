@@ -140,8 +140,8 @@ public class Banco {
             case FISICA -> numClientesPF++;
             case JURIDICA -> numClientesPJ++;
         }
-        cadastrarConta(cliente, cliente.escolherConta(cliente.tipoCliente));
         clientesMAP.put(cliente.numIDCliente, cliente);
+        cadastrarConta(cliente, cliente.escolherConta(cliente.tipoCliente));
         System.out.println("\t >>>>>> Conta criada com sucesso! <<<<<<");
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
@@ -196,34 +196,64 @@ public class Banco {
         tipoAux = tipoConta;
         switch (tipoConta) {
             case PF_CORRENTE:
-                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("11") == null) {
-                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-11");
-                    return;
-                }
+            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("11") == null) {
+                        cliente.abrirConta(tipoConta, cliente.numIDCliente + "-11");
+                        return;
+                    }
+            	}
+            	else {
+            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-11");
+            		return;
+            	}
                 break;
             case PF_POUPANCA:
-                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("12") == null) {
-                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-12");
-                    return;
-                }
+            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("12") == null) {
+                        cliente.abrirConta(tipoConta, cliente.numIDCliente + "-12");
+                        return;
+                    }
+            	}
+            	else {
+            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-12");
+            		return;
+            	}
                 break;
             case PF_INVESTIMENTO:
-                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("13") == null) {
-                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-13");
-                    return;
-                }
+            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("13") == null) {
+                        cliente.abrirConta(tipoConta, cliente.numIDCliente + "-13");
+                        return;
+                    }
+            	}
+            	else {
+            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-13");
+            		return;
+            	}
                 break;
             case PJ_CORRENTE:
-                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("21") == null) {
-                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-21");
-                    return;
-                }
+            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("21") == null) {
+                        cliente.abrirConta(tipoConta, cliente.numIDCliente + "-21");
+                        return;
+                    }
+            	}
+            	else {
+            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-21");
+            		return;
+            	}
                 break;
             case PJ_INVESTIMENTO:
-                if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("23") == null) {
-                    cliente.abrirConta(tipoConta, cliente.numIDCliente + "-23");
-                    return;
-                }
+            	if(clientesMAP.get(cliente.numIDCliente).contaDoCliente != null) {
+            		if (clientesMAP.get(cliente.numIDCliente).contaDoCliente.contasMAP.get("23") == null) {
+                        cliente.abrirConta(tipoConta, cliente.numIDCliente + "-23");
+                        return;
+                    }
+            	}
+            	else {
+            		cliente.abrirConta(tipoConta, cliente.numIDCliente + "-23");
+            		return;
+            	}
                 break;
         }
         System.out.println("\t\t\t\t\t\t Cliente já possui uma conta desse tipo aberta!");
