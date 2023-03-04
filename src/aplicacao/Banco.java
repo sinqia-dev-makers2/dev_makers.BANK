@@ -13,25 +13,25 @@ import utilitarios.Formatar_CPF_CNPJ;
 import utilitarios.LeitorDeDados;
 
 public class Banco {
-    
+
     LeitorDeDados leitor = new LeitorDeDados();
     Formatar_CPF_CNPJ formatar = new Formatar_CPF_CNPJ();
     Map<String, Cliente> clientesMAP = new HashMap<>();
-    
+
     public int numClientesPF = 0; // precisamos considerar quantos clientes PF foram adicionados via carregarBD() e somar!
     public int numClientesPJ = 0; // precisamos considerar quantos clientes PJ foram adicionados via carregarBD() e somar!
-    
+
     Cliente clienteAux;
     TipoConta tipoAux;
     String contaAux;
     String senhaAux;
-    
+
     public void iniciar() throws ParseException, InterruptedException {
         carregaDadosPrevios();
         menuInicio();
     }
-    
-    
+
+
     public void carregaDadosPrevios() {
         TipoCliente tipoCliente = TipoCliente.FISICA;
         String nomeDoCliente = "Matheus";
@@ -48,7 +48,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-11");
-        
+
         tipoCliente = TipoCliente.FISICA;
         nomeDoCliente = "Felipe";
         tipoDoc = TipoDoc.CPF;
@@ -64,7 +64,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-11");
-        
+
         tipoCliente = TipoCliente.JURIDICA;
         nomeDoCliente = "Richard";
         tipoDoc = TipoDoc.CNPJ;
@@ -80,7 +80,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-21");
-        
+
         tipoCliente = TipoCliente.JURIDICA;
         nomeDoCliente = "Wesley";
         tipoDoc = TipoDoc.CNPJ;
@@ -96,7 +96,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-23");
-        
+
         tipoCliente = TipoCliente.FISICA;
         nomeDoCliente = "Leonardo";
         tipoDoc = TipoDoc.CPF;
@@ -112,7 +112,7 @@ public class Banco {
         System.out.println("\t >>>>>> Dados da Conta Criada");
         System.out.println("\t >>> Cliente: " + nomeDoCliente);
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-12");
-        
+
         tipoCliente = TipoCliente.FISICA;
         nomeDoCliente = "Jackson";
         tipoDoc = TipoDoc.CPF;
@@ -130,7 +130,7 @@ public class Banco {
         System.out.println("\t >>> Conta: " + cliente.numIDCliente + "-13");
         limpaMenu();
     }
-    
+
     public void cadastrarCliente() throws ParseException, InterruptedException {
         TipoCliente tipoCliente = getTipoDeCliente();
         String nomeDoCliente = getNomeCliente();
@@ -154,7 +154,7 @@ public class Banco {
                                         (tipoAux.toString().split("_")[1].equals("INVESTIMENTO") && tipoCliente == TipoCliente.JURIDICA) ? "23" : "12"));
         System.out.println("\t\t\t\t\t\t Voltando ao menu inicial!");
     }
-    
+
     private TipoCliente getTipoDeCliente() {
         System.out.println("\t >>> Tipo de pessoa ");
         System.out.println("\t\t 1 - Fisica");
@@ -163,21 +163,21 @@ public class Banco {
         int inputTipoCliente = leitor.lerInteiro("[1-2]", "Digite a opção desejada: ");
         return TipoCliente.getTipoCliente(inputTipoCliente);
     }
-    
+
     private String getNomeCliente() {
         System.out.print("\t >>> Nome e Sobrenome: ");
         return leitor.lerTexto("", "Nome e Sobrenome: ");
     }
-    
+
     private void cadastrarSenha(Cliente cliente) {
         System.out.print("\t >>> Digite sua senha (Min. 3 caracteres): ");
         cliente.cadastrarSenha(leitor.lerTexto("", "Digite sua senha (Min. 3 caracteres): "));
     }
-    
+
     private TipoDoc getTipoDoc(TipoCliente tipoCliente) {
         return TipoCliente.getTipoDoc(tipoCliente);
     }
-    
+
     private String getDocCliente(TipoCliente tipoCliente) throws ParseException {
         switch (tipoCliente) {
             case FISICA -> {
@@ -193,7 +193,7 @@ public class Banco {
             }
         }
     }
-    
+
     public void cadastrarConta(Cliente cliente, TipoConta tipoConta) throws ParseException, InterruptedException {
         tipoAux = tipoConta;
         switch (tipoConta) {
@@ -258,7 +258,7 @@ public class Banco {
         Thread.sleep(3000);
         menuClienteLogado(cliente, clienteAux.contaDoCliente.contasMAP.get(contaAux.split("-")[1]).tipoConta);
     }
-    
+
     public String criarID(TipoCliente tipoCliente) {
         int idCliente = 0;
         switch (tipoCliente) {
@@ -273,11 +273,11 @@ public class Banco {
         */
         return String.valueOf(idCliente); // ex: "1143078" ou "2458189"
     }
-    
+
     private int parcialID() {
         return (1000 * (clientesMAP.size() + 1));
     }
-    
+
     private Cliente buscarConta(String numConta) {
         if (clientesMAP.get(numConta) != null) {
             return clientesMAP.get(numConta);
@@ -286,15 +286,15 @@ public class Banco {
             return null;
         }
     }
-    
+
     // MENUS
-    
+
     public void limpaMenu() {
         for (int i = 0; i < 20; i++) { /// Depois vou aumentar a quantidade de linhas para limpar a tela
             System.out.println();
         }
     }
-    
+
     public void menuInicio() throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
@@ -305,7 +305,7 @@ public class Banco {
         System.out.println("\t >>> 3 - Abrir uma conta");
         System.out.println("\t >>> 4 - Finalizar");
         System.out.print("\n\t >>> Digite a opção desejada: ");
-        
+
         switch (leitor.lerInteiro("[0-4]", "Digite a opção desejada: ")) {
             case 0 -> {
                 carregaDadosPrevios();
@@ -326,7 +326,7 @@ public class Banco {
             case 4 -> System.exit(0);
         }
     }
-    
+
     public void menuDepositoSemLogin() throws ParseException, InterruptedException {
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
@@ -334,7 +334,7 @@ public class Banco {
         System.out.println("\t >>>>>> Siga as instruções abaixo para realizar um depósito <<<<<<");
         System.out.print("\t >>> Digite a conta que deseja depositar (Ex: 123-12): ");
         contaAux = leitor.lerTexto("(\\d{7})(-)(\\d{2})", "Digite a conta que deseja depositar (Ex: 123-12): ");
-        
+
         if (buscarConta(contaAux.split("-")[0]) != null) {
             clienteAux = buscarConta(contaAux.split("-")[0]);
             System.out.println("\n\t >>>>>>Dados da Conta: ");
@@ -365,7 +365,7 @@ public class Banco {
             menuInicio();
         }
     }
-    
+
     public void menuEntrarConta() throws ParseException, InterruptedException {
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
@@ -375,7 +375,7 @@ public class Banco {
         contaAux = leitor.lerTexto("(\\d{7})(-)(\\d{2})", "Conta (Ex: 123-12): ");
         System.out.print("\t >>> Senha: ");
         senhaAux = leitor.lerTexto("", "Senha: ");
-        
+
         if (buscarConta(contaAux.split("-")[0]) != null) {
             clienteAux = buscarConta(contaAux.split("-")[0]);
             if (Objects.requireNonNull(clienteAux).getSenha().equals(senhaAux)) {
@@ -401,7 +401,7 @@ public class Banco {
             menuInicio();
         }
     }
-    
+
     public void menuAbrirConta() throws ParseException, InterruptedException {
         System.out.println("\t************************************************************************************************************");
         System.out.println("\t*************************************** Bem-Vindo ao Banco DevMakers ***************************************");
@@ -411,7 +411,7 @@ public class Banco {
         Thread.sleep(3000);
         menuInicio();
     }
-    
+
     public void menuClienteLogado(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         int opcao = -1;
@@ -452,7 +452,7 @@ public class Banco {
             default:
                 System.out.println(" ");
         }
-        
+
         switch (opcao) {
             case 1 -> menuSacar(clienteLogado, tipoContaSelecionado);
             case 2 -> {
@@ -472,7 +472,7 @@ public class Banco {
             }
         }
     }
-    
+
     public void menuSacar(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
@@ -492,12 +492,12 @@ public class Banco {
         } else {
             System.out.println("\t\t\t\t\t\t Operação cancelada!");
         }
-        
+
         System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-    
+
     public void menuDepositar(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
@@ -513,12 +513,12 @@ public class Banco {
         } else {
             System.out.println("\t\t\t\t\t\t Operação cancelada!");
         }
-        
+
         System.out.println("\t\t\t\t\t\t Voltando ao menu principal!");
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-    
+
     public void menuInvestir(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
@@ -538,7 +538,7 @@ public class Banco {
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-    
+
     public void menuTransferir(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
@@ -574,7 +574,7 @@ public class Banco {
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-    
+
     public void menuVerContas(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         TipoConta tipoAux = null;
@@ -595,7 +595,7 @@ public class Banco {
                     } else if (sufixoAux == 13) {
                         System.out.println("\t >>> Investimento: " + clienteLogado.numIDCliente + "-13");
                     }
-                    
+
                 } else if (clienteLogado.getTipoCliente() == TipoCliente.JURIDICA) {
                     if (sufixoAux == 21) {
                         System.out.println("\t >>> Corrente: " + clienteLogado.numIDCliente + "-21");
@@ -605,7 +605,7 @@ public class Banco {
                 }
             }
         }
-        
+
         System.out.println("\n\t >>>>>> Deseja alterar a conta logada? (S)sim / (N)não");
         System.out.print("\t >>> Digite a opção: ");
         if (leitor.lerCaracter("[SsNn]", "Digite a opção: ") == 's') {
@@ -686,7 +686,7 @@ public class Banco {
             menuClienteLogado(clienteLogado, tipoContaSelecionado);
         }
     }
-    
+
     public void menuAbrirNovaConta(Cliente clienteLogado, TipoConta tipoContaSelecionado) throws ParseException, InterruptedException {
         limpaMenu();
         System.out.println("\t************************************************************************************************************");
@@ -698,5 +698,5 @@ public class Banco {
         Thread.sleep(3000);
         menuClienteLogado(clienteLogado, tipoContaSelecionado);
     }
-    
+
 }
